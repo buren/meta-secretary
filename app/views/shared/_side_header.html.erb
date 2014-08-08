@@ -1,0 +1,61 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav" id="side-menu">
+      <li class="sidebar-search">
+        <div class="input-group custom-search-form">
+          <%= content_tag :div, id: MetaDefines::View::APP_SEARCH_ID do %>
+            <%= text_field_tag 'query', nil, class: "form-control #{MetaDefines::View::TYPEAHEAD_CLASS}", placeholder: 'Search by app' %>
+          <% end %>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+          </span>
+        </div>
+      </li>
+      <li>
+        <%= link_to dashboard_home_path do %>
+          <%= icon_for :dashboard %>
+          <%= t('common.dashboard') %>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to deployments_path do %>
+          <i class="fa fa-upload fa-fw"></i>
+          <%= t('common.deployments') %>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to diff_path do %>
+          <i class="fa fa-code-fork fa-fw"></i>
+          <%= t('common.diff') %>
+          <span class="fa arrow"></span>
+        <% end %>
+        <ul class="nav nav-second-level">
+          <% Deployment.deployed_application_names.each do |app| %>
+            <li>
+              <%= link_to app, diff_path(app: app) %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+      <li>
+        <%= link_to '#' do %>
+          <%= icon_for :list %>
+          <%= t('common.latest_deployments') %>
+          <span class="fa arrow"></span>
+        <% end %>
+        <ul class="nav nav-second-level">
+          <% Deployment.latest_by_app_server.each do |deploy| %>
+            <li>
+              <%= link_to app_and_server_for(deploy), github_commits_path(repo: deploy.repository_name, sha: deploy.commit_sha) %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+    <!-- /#side-menu -->
+  </div>
+  <!-- /.sidebar-collapse -->
+</nav>
+<!-- /.navbar-static-side -->

@@ -1,0 +1,64 @@
+<%= content_tag :h1, t('deploy.index'), class: 'page-header' %>
+<div class="row">
+  <div class="col-md-6">
+    <%= render_panel t('deploy.deploys_by_week'), line_chart(charts_deploys_by_week_path) %>
+  </div>
+  <div class="col-md-6">
+    <%= render_panel t('deploy.deploys_by_application'), pie_chart(charts_deploys_by_application_path) %>
+  </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <%= t('deploy.index') %> (<%= deployed_app_count_sentence %>)
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="deploy-table">
+              <thead>
+                <tr>
+                  <th><%= t('deploy.application') %></th>
+                  <th><%= t('deploy.tag') %></th>
+                  <th><%= t('deploy.deployed_at') %></th>
+                  <th><%= t('deploy.server') %></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @deployments.each do |deployment| %>
+                  <tr>
+                    <td><%= deployment.application %></td>
+                    <td><%= link_to deployment.tag, @github.github_commit_url(deployment.repository_name, deployment.commit_sha) %></td>
+                    <td><%= deployment.created_at.to_formatted_s(:long) %></td>
+                    <td><%= deployment.server %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+
+<div class="row">
+  <div class="col-lg-12">
+    <%= render_panel t('deploy.deploys_by_day'), column_chart(charts_deploys_by_day_path, stacked: true) %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <%= render_panel t('deploy.deploys_by_time_of_day'), column_chart(charts_deploys_by_hour_path, stacked: true), icon: :chart %>
+  </div>
+</div>
+
+<%= link_to t('deploy.new_deployment'), new_deployment_path %>
+
+<script>
+  $('#deploy-table').dataTable();
+</script>

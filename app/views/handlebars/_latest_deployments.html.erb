@@ -1,0 +1,20 @@
+<%= render_handlebar github_latest_deployments_path do  %>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <th><%= t('common.app') %></th>
+        <th><%= t('common.server') %></th>
+        <th><%= t('deploy.commit_sha') %></th>
+      </thead>
+      <tbody>
+        {{#each deploys}}
+          <tr>
+            <td>{{application}}</td>
+            <td>{{server}}</td>
+            <td><%= link_to '{{commit_sha}}', "#{github_commits_path}?repo={{repository_name}}&sha={{commit_sha}}" %></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+<% end %>

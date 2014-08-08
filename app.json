@@ -1,0 +1,32 @@
+{
+  "name": "Meta Secretary",
+  "description": "Simple Rails app to keep track of deployments",
+  "repository": "https://github.com/trialbee/meta-secretary",
+  "keywords": ["rails", "deploy"],
+  "env": {
+    "RAILS_ENV": "production",
+    "SECRETARY_WEB_USER": {
+      "description": "Username for HTTP Basic Auth",
+      "required": true
+    },
+    "SECRETARY_WEB_PASS": {
+      "description": "Password for HTTP Basic Auth",
+      "required": true
+    },
+    "SECRETARY_SECRET_TOKEN": {
+      "description": "Rails secret token",
+      "required": true
+    },
+    "SECRETARY_GITHUB_ACCESS_TOKEN": {
+      "description": "Access token GitHub (can't be an organization token), that has access to all repositories",
+      "required": true
+    },
+    "SECRETARY_GITHUB_ORG_NAME": {
+      "description": "Name of organization on GitHub",
+      "required": true
+    }
+  },
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate"
+  }
+}

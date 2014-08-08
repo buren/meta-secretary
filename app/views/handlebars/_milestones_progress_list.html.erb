@@ -1,0 +1,26 @@
+<%= render_handlebar github_milestones_path, { tag: :ul, class: 'dropdown-menu dropdown-tasks' } do  %>
+    {{#repo_milestones}}
+      <li>
+        <a href="#">
+          {{repository_name}}
+        </a>
+      </li>
+      {{#milestones}}
+        <li>
+          <%= link_to '{{html_url}}', target: '_blank' do %>
+            <div>
+              <p>
+                <strong>{{title}}</strong>
+                <span class="pull-right text-muted">{{completion_ratio}}% <%= t('common.complete') %></span>
+              </p>
+              <div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{completion_ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{completion_ratio}}%">
+                    <span class="sr-only">{{completion_ratio}}% <%= t('common.complete') %></span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </li>
+      {{/milestones}}
+    {{/repo_milestones}}
+<% end %>

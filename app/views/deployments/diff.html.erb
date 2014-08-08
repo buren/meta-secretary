@@ -1,0 +1,33 @@
+<%= content_tag :h1, t('deploy.diff.title', app: diff_deploy_app_form).html_safe %>
+<hr>
+<div class="row">
+  <%= bootstrap_form_tag(url: diff_route_path, method: :get)  do |f| %>
+    <%= hidden_field_tag :app, params[:app] %>
+    <div class="col-md-2">
+      <%= content_tag :h3, t('deploy.diff.base') %>
+      <%= f.form_group :base_server, label: { text: t('deploy.diff.server') }, help: t('deploy.diff.server_help') do %>
+        <% @deployed_servers.each do |server| %>
+          <%= f.radio_button :base_server, server, label: server, checked: (server.eql?(@deployed_servers.first)) %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-3">
+      <%= content_tag :h3, t('deploy.diff.comparison') %>
+      <%= f.form_group :diff_server, label: { text: t('deploy.diff.diff_server') }, help: t('deploy.diff.diff_server_help') do %>
+        <% @deployed_servers.each do |server| %>
+          <%= f.radio_button :diff_server, server, label: server %>
+        <% end %>
+      <% end %>
+      <%= f.submit t('deploy.diff.diff_submit') %>
+    </div>
+    <div class="col-md-1">
+      <h3>&nbsp;</h3>
+      <%= content_tag :h3, t('deploy.diff.or') %>
+    </div>
+    <div class="col-md-4">
+      <h3>&nbsp;</h3>
+      <%= f.select :deploy_history, MetaDefines::View::DIFF_HISTORY_RANGE, prompt: t('deploy.diff.deploy_history_prompt') %>
+      <%= f.submit t('deploy.diff.diff_submit') %>
+    </div>
+  <% end %>
+</div>
