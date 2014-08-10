@@ -37,17 +37,26 @@
 <a href="https://travis-ci.org/trialbee/meta-secretary"><img src="https://travis-ci.org/trialbee/meta-secretary.png?branch=master" alt="Build Status"></a></p>
 
 <ul>
+<li><a href="#about">About</a></li>
+<li><a href="#create-deploy">Create deploy</a></li>
 <li><a href="#production-setup">Production setup</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#tests">Tests</a></li>
 <li><a href="#technology">Technology</a></li>
 </ul><h2>
-<a name="create-new-deploy" class="anchor" href="#create-new-deploy"><span class="octicon octicon-link"></span></a>Create new deploy</h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>Meta Secretary is a simple Rails app to keep track of deploys for code that is hosted on GitHub.  </p>
+
+<ul>
+<li>A GitHub user token with access to all deployed repositories is needed, note that it can't be a organization token.</li>
+</ul><h2>
+<a name="create-deploy" class="anchor" href="#create-deploy"><span class="octicon octicon-link"></span></a>Create deploy</h2>
 
 <div class="highlight highlight-bash"><pre><span class="c"># Required: commit_sha, application, repository_name, server</span>
 <span class="c"># Optional: ip_address, tag</span>
 <span class="c">#</span>
-<span class="c"># repository_name must be the same name as used on GitHub</span>
+<span class="c"># repository_name must be the name used on GitHub</span>
 
 <span class="nv">$ </span>curl -X POST -d <span class="se">\</span>
 <span class="s1">'{</span>
@@ -75,7 +84,7 @@
 <span class="c"># Rails secret token</span>
 <span class="nb">export </span><span class="nv">SECRETARY_SECRET_TOKEN</span><span class="o">=</span><span class="s1">'.........'</span>
 <span class="c"># For usage of the GitHub API</span>
-<span class="nb">export </span><span class="nv">SECRETARY_GITHUB_ORG_NAME</span><span class="o">=</span><span class="s1">'...'</span>     <span class="c"># GitHub organization name  </span>
+<span class="nb">export </span><span class="nv">SECRETARY_GITHUB_ORG_NAME</span><span class="o">=</span><span class="s1">'...'</span>     <span class="c"># GitHub organization name or username</span>
 <span class="nb">export </span><span class="nv">SECRETARY_GITHUB_ACCESS_TOKEN</span><span class="o">=</span><span class="s1">'...'</span> <span class="c"># Access token GitHub (can't be an organization token), that has access to all repositories</span>
 <span class="nv">$ </span>git clone git@github.com:trialbee/meta-secretary.git
 <span class="c"># If you want to deploy to Heroku:</span>
@@ -84,6 +93,13 @@
 <span class="nv">$ </span>heroku run rake db:create
 <span class="nv">$ </span>heroku run rake db:migrate
 <span class="nv">$ </span>heroku restart
+</pre></div>
+
+<h2>
+<a name="updating-meta-secretary" class="anchor" href="#updating-meta-secretary"><span class="octicon octicon-link"></span></a>Updating Meta Secretary</h2>
+
+<div class="highlight highlight-bash"><pre>  <span class="nv">$ </span><span class="nb">export</span> <span class="nv">$META_SECRETARY_URL</span><span class="o">=</span><span class="s1">'https://user:password@example-meta.herokuapp.com'</span>
+  <span class="nv">$ </span>bash --login deploy.sh <span class="c"># --login is needed if META_SECRETARY_URL is set in bash_profile</span>
 </pre></div>
 
 <h2>
