@@ -1,9 +1,8 @@
 class ChartsController < ApplicationController
 
   def deploys_by_week
-    app_names = Deployment.unique_applications
     deps = Array.new
-    app_names.each do |app_name|
+    deploys = Deployment.unique_applications.each do |app_name|
       deps << {
         name: app_name,
         data: Deployment.where(application: app_name).deploys_by_week
@@ -13,25 +12,11 @@ class ChartsController < ApplicationController
   end
 
   def deploys_by_day
-    uniq_apps = Deployment.unique_applications
-    deploys = uniq_apps.map do |app_name|
-      {
-        name: app_name,
-        data: Deployment.where(application: app_name).deploys_by_day
-      }
-    end
-    render json: deploys
+    render json: deploys_by_app { |deploys_by_app| deploys_by_app.deploys_by_day }
   end
 
   def deploys_by_hour
-    uniq_apps = Deployment.unique_applications
-    deploys = uniq_apps.map do |app_name|
-      {
-        name: app_name,
-        data: Deployment.where(application: app_name).deploys_per_hour
-      }
-    end
-    render json: deploys
+    render json: deploys_by_app { |deploys_by_app| deploys_by_app.deploys_per_hour }
   end
 
   def deploys_by_application
@@ -41,5 +26,16 @@ class ChartsController < ApplicationController
   def last_year_commit_stats
     render json: GithubAPI.new.last_year_commit_stats
   end
+
+  private
+
+    def deploys_by_app(&block)
+      Deployment.unique_applications.map do |app_name|
+        {
+          name: app_name,
+          data: yield(Deployment.where(application: app_name))
+        }
+      end
+    end
 
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GithubAPI do
+describe GithubAPI, no_travis: true do
 
   before (:each) do
     @github = GithubAPI.new
@@ -134,4 +134,3 @@ describe GithubAPI do
   end
 
 end
-

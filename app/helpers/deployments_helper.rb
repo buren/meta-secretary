@@ -16,9 +16,9 @@ module DeploymentsHelper
     res.html_safe
   end
 
-  def diff_deploy_app_form
+  def diff_deploy_app_form(app)
     form_tag(diff_path, method: :get, class: 'form-inline diff-choose-app') do
-      select_tag :app, options_for_select(Deployment.deployed_application_names, params[:app]), class: 'form-control', onchange: 'this.form.submit()'
+      select_tag :app, options_for_select(Deployment.deployed_application_names, app), class: 'form-control', onchange: 'this.form.submit()'
     end
   end
 

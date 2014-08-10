@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-ruby "2.0.0"
-gem 'rails', '4.0.0'
+ruby '2.0.0'
+gem 'rails', '4.0.8'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -9,7 +9,7 @@ gem 'bootstrap_form' # Bootstrap forms
 gem 'turbolinks'     # Load pages using PJAX
 gem 'jquery-rails'
 
-gem "chartkick"
+gem 'chartkick'
 gem 'groupdate'
 
 gem "octokit", "~> 2.0" # GitHub API
@@ -32,7 +32,7 @@ group :test do
   gem 'spork'      , github: 'sporkrb/spork'
   gem 'spork-rails', github: 'sporkrb/spork-rails'
   gem 'guard-spork'
-  gem "factory_girl_rails"
+  gem 'factory_girl_rails'
   gem "rspec-rails"
   gem 'simplecov'
   gem 'database_cleaner'

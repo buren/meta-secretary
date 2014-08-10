@@ -13,7 +13,7 @@ describe DeploymentsController do
     {}
   end
 
-  describe "GET index" do
+  describe "GET index", no_travis: true do
     it "assigns all deployments as @deployments" do
       deployment = Deployment.create! valid_attributes
       get :index, {}, valid_session
@@ -176,10 +176,38 @@ describe DeploymentsController do
   end
 
   describe "GET latest_by_app_server" do
-    it "returns 200 response and returns JSON" do
+    it "returns 200 response" do
       get :latest_by_app_server
       expect(response.status).to eq(200)
     end
+  end
+
+  describe "GET diff" do
+    it "returns 302 response" do
+      get :diff
+      expect(response.status).to eq(302)
+    end
+  end
+
+  describe "GET diff_route", no_travis: true do
+    it "returns 302 response with diff_server param" do
+      Deployment.create({ commit_sha: '0123456789', application: 'application_name', repository_name: 'repo_name', server: 'server-name' })
+      get :diff_route, { app: 'application_name', base_server: 'server-name', diff_server: 'server-name' }
+      expect(response.status).to eq(302)
+    end
+
+    it 'return 302 response with no comparison param' do
+      Deployment.create({ commit_sha: '0123456789', application: 'application_name', repository_name: 'repo_name', server: 'server-name' })
+      get :diff_route, { app: 'application_name', base_server: 'server-name' }
+      expect(response.status).to eq(302)
+    end
+
+    it 'return 302 response with diff_history param' do
+      Deployment.create({ commit_sha: '0123456789', application: 'application_name', repository_name: 'repo_name', server: 'server-name' })
+      get :diff_route, { app: 'application_name', base_server: 'server-name', deploy_history: 1 }
+      expect(response.status).to eq(302)
+    end
+
   end
 
 end

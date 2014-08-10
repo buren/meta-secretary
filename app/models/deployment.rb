@@ -5,6 +5,8 @@ class Deployment < ActiveRecord::Base
   scope :latest,        -> (limit) { all.order(id: :desc).limit(limit) }
   scope :latest_by_app, -> (app)   { where(application: app).latest(1) }
 
+  scope :deploys_in_commit, ->(commit_shas) { where(commit_sha: commit_shas) }
+
   def self.deployed_application_names
     all.map(&:application).uniq
   end
@@ -26,10 +28,6 @@ class Deployment < ActiveRecord::Base
       app_servers << app_hash
     end
     ret
-  end
-
-  def self.deploys_in_commit(commit_sha)
-    where(commit_sha: commit_sha)
   end
 
   def self.deploys_by_week

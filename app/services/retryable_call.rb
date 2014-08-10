@@ -12,12 +12,12 @@ class RetryableCall
     @options = DEFAULT_OPTIONS.merge(options)
   end
 
-  # Retries given block until not nil or max_retries is reached
-  # returns the first non-nil object
+  # Retries given block until not blank or max_retries is reached
+  # returns the first non-blank object
   def perform &block
     response = nil
     tries    = 0
-    while response.nil?
+    while response.blank?
       break if tries > @options[:max_retries]
       response = block.call
       tries += 1

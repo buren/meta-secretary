@@ -4,18 +4,24 @@ Simple Rails app to keep track of deploys.
 [![Code Climate](https://codeclimate.com/github/trialbee/meta-secretary.png)](https://codeclimate.com/github/trialbee/meta-secretary)
 [![Build Status](https://travis-ci.org/trialbee/meta-secretary.png?branch=master)](https://travis-ci.org/trialbee/meta-secretary)
 
+- [About](#about)
+- [Create deploy](#create-deploy)
 - [Production setup](#production-setup)
 - [Contributing](#contributing)
 - [Tests](#tests)
 - [Technology](#technology)
 
+## About
+Meta Secretary is a simple Rails app to keep track of deploys for code that is hosted on GitHub.  
+* Currently a GitHub organization name is needed inorder to make Meta Secretary work properly.  
+* A GitHub user token with access to all deployed repositories is needed, note that it can't be a organization token.
 
-## Create new deploy
+## Create deploy
 ```bash
 # Required: commit_sha, application, repository_name, server
 # Optional: ip_address, tag
 #
-# repository_name must be the same name as used on GitHub
+# repository_name must be the name used on GitHub
 
 $ curl -X POST -d \
 '{
@@ -50,6 +56,12 @@ $ git push heroku master
 $ heroku run rake db:create
 $ heroku run rake db:migrate
 $ heroku restart
+```
+
+## Updating Meta Secretary
+```bash
+  $ export $META_SECRETARY_URL='https://user:password@example-meta.herokuapp.com'
+  $ bash --login deploy.sh # --login is needed if META_SECRETARY_URL is set in bash_profile
 ```
 
 ## Contributing

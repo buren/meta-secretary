@@ -71,7 +71,8 @@ class DeploymentsController < ApplicationController
 
   # GET /diff_route
   def diff_route
-    app_deploys    = Deployment.where(application: params[:app])
+    application    = params[:app]
+    app_deploys    = Deployment.where(application: application)
     diff_server    = params[:diff_server]
     deploy_history = params[:deploy_history]
 

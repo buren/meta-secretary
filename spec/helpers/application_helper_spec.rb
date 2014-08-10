@@ -182,4 +182,12 @@ describe ApplicationHelper do
     end
   end
 
+  it 'should render correct bootstrap status class' do
+    expect(bootstrap_class_for(:success)).to eq 'alert-success'
+    expect(bootstrap_class_for(:error)).to   eq 'alert-danger'
+    expect(bootstrap_class_for(:alert)).to   eq 'alert-warning'
+    expect(bootstrap_class_for(:notice)).to  eq 'alert-info'
+    expect(bootstrap_class_for(:not_a_thing)).to  eq 'not_a_thing'
+  end
+
 end

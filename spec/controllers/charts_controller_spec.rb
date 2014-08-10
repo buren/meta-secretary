@@ -31,7 +31,7 @@ describe ChartsController do
       get :deploys_by_day
       expect(response.status).to eq(200)
       json = JSON.parse(response.body)
-      expect(json.class).to eq(Hash)
+      expect(json.class).to eq(Array)
     end
   end
 
@@ -40,7 +40,7 @@ describe ChartsController do
       get :deploys_by_hour
       expect(response.status).to eq(200)
       json = JSON.parse(response.body)
-      expect(json.class).to eq(Hash)
+      expect(json.class).to eq(Array)
     end
   end
 
@@ -53,7 +53,7 @@ describe ChartsController do
     end
   end
 
-  describe "GET last_year_commit_stats" do
+  describe "GET last_year_commit_stats", no_travis: true do
     it "returns 200 response and returns JSON" do
       get :last_year_commit_stats
       expect(response.status).to eq(200)

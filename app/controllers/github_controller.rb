@@ -75,10 +75,10 @@ class GithubController < ApplicationController
     index = -1
     commits_before_reslut = @github.commits_before(params[:repo], params[:sha])
     commit_shas = commits_before_reslut.map(&:sha)
-    @deploys_in_commits = Deployment.where(commit_sha: commit_shas)
+    @deploys_in_commits = Deployment.deploys_in_commit(commit_shas)
     commits = commits_before_reslut.map do |commit|
       index += 1
-      build_commit_hash_for commit, index
+      build_commit_hash_for @deploys_in_commits, commit, index
     end
     render json: { commits: commits }
   end
@@ -93,7 +93,7 @@ class GithubController < ApplicationController
       @github = GithubAPI.new
     end
 
-    def build_commit_hash_for commit, index
+    def build_commit_hash_for(deploys, commit, index)
       max_title_chars = 45
       commit_message = commit.commit.message
       message_body   = commit_message.length > max_title_chars ? commit_message.gsub(/\n/, '<br>').html_safe : ''
@@ -105,7 +105,7 @@ class GithubController < ApplicationController
         message_title:   commit_message.truncate(max_title_chars),
         message_body:    message_body,
         inverted_class:  (index.even? ? '' : MetaDefines::View::TIMELINE_INVERTED_LI),
-        deployed_to:     @deploys_in_commits.deploys_in_commit(commit.sha).map(&:server).uniq.join(', ')
+        deployed_to:     deploys.map(&:server).uniq.join(', ')
       }
     end
 

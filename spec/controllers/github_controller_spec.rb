@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GithubController do
+describe GithubController, no_travis: true do
 
   before(:each) do
     Deployment.create(commit_sha: '0123456789', application: 'app_name', repository_name: 'repo_name')

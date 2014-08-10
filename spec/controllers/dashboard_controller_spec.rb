@@ -13,14 +13,14 @@ describe DashboardController do
     {}
   end
 
-  describe 'GET home' do
+  describe 'GET home', no_travis: true do
     it 'renders home template' do
       get :home
       response.should render_template('home')
     end
   end
 
-  describe "GET deploys_by_week" do
+  describe "GET deploys_by_week", no_travis: true do
     it "returns 200 response and returns JSON" do
       get :home
       expect(response.status).to eq(200)
@@ -28,4 +28,3 @@ describe DashboardController do
   end
 
 end
-

@@ -1,3 +1,13 @@
 language: ruby
 rvm:
   - 2.0.0
+env:
+  - SECRETARY_SECRET_TOKEN=not_so_secret SECRETARY_WEB_USER=user SECRETARY_WEB_PASS=pass SECRETARY_GITHUB_ORG_NAME=trialbee SECRETARY_GITHUB_ACCESS_TOKEN=not_a_valid_token
+before_script:
+  - mysql -e 'create database `dev-secretary_test`;'
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rake db:test:prepare
+script: bundle exec rspec --tag ~no_travis spec
+bundler_args: --without production
+cache: bundler
