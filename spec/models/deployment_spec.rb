@@ -99,4 +99,14 @@ describe Deployment do
     expect(Deployment.deploys_by_day).to eq(expected)
   end
 
+  it 'should return deploys_by_week', no_travis: true do
+    deploy = Deployment.create(commit_sha: '0123456789', application: "app_name", repository_name: 'repo_name', server: 'localghost')
+    expect(Deployment.deploys_by_week).to be_a Hash
+  end
+
+  it 'should return deploys_by_hour' do
+    deploy = Deployment.create(commit_sha: '0123456789', application: "app_name", repository_name: 'repo_name', server: 'localghost')
+    expect(Deployment.deploys_by_hour).to be_a Hash
+  end
+
 end

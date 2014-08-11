@@ -4,17 +4,17 @@ class RetryableCall
     max_retries: 5
   }
 
-  def self.perform options = {}, &block
+  def self.perform(options = {}, &block)
     new(options).perform(&block)
   end
 
-  def initialize options = {}
+  def initialize(options = {})
     @options = DEFAULT_OPTIONS.merge(options)
   end
 
   # Retries given block until not blank or max_retries is reached
   # returns the first non-blank object
-  def perform &block
+  def perform(&block)
     response = nil
     tries    = 0
     while response.blank?

@@ -11,8 +11,8 @@ describe MetaDefines do
 
   describe 'Github' do
     it 'should have constants defined for GitHub' do
-      MetaDefines::Github::BASE_URL.should_not     be_nil
-      MetaDefines::Github::ORG_NAME.should_not     be_nil
+      MetaDefines::Github::BASE_URL.should eq  'https://github.com'
+      MetaDefines::Github::ORG_NAME.should_not be_nil
     end
 
     it 'should have constant defined for GitHub access token', no_travis: true do

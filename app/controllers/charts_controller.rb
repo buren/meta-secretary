@@ -2,7 +2,7 @@ class ChartsController < ApplicationController
 
   def deploys_by_week
     deps = Array.new
-    deploys = Deployment.unique_applications.each do |app_name|
+    Deployment.unique_applications.each do |app_name|
       deps << {
         name: app_name,
         data: Deployment.where(application: app_name).deploys_by_week
@@ -16,7 +16,7 @@ class ChartsController < ApplicationController
   end
 
   def deploys_by_hour
-    render json: deploys_by_app { |deploys_by_app| deploys_by_app.deploys_per_hour }
+    render json: deploys_by_app { |deploys_by_app| deploys_by_app.deploys_by_hour }
   end
 
   def deploys_by_application
@@ -24,7 +24,7 @@ class ChartsController < ApplicationController
   end
 
   def last_year_commit_stats
-    render json: GithubAPI.new.last_year_commit_stats
+    render json: GithubApi.new.last_year_commit_stats
   end
 
   private

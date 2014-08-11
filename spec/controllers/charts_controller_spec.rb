@@ -2,15 +2,6 @@ require 'spec_helper'
 
 describe ChartsController do
 
-  before(:each) do
-    Deployment.create(commit_sha: '0123456789', application: 'app_name', repository_name: 'repo_name')
-  end
-
-  # This should return the minimal set of attributes required to create a valid deployment
-  def valid_attributes
-    {}
-  end
-
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in GithubController.
   def valid_session

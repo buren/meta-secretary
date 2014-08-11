@@ -38,7 +38,7 @@ class Deployment < ActiveRecord::Base
     group_by_day_of_week(:created_at, format: "%a").count
   end
 
-  def self.deploys_per_hour
+  def self.deploys_by_hour
     group_by_hour_of_day(:created_at, format: "%l %P").count
   end
 

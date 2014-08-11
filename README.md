@@ -13,7 +13,6 @@ Simple Rails app to keep track of deploys.
 
 ## About
 Meta Secretary is a simple Rails app to keep track of deploys for code that is hosted on GitHub.  
-* Currently a GitHub organization name is needed inorder to make Meta Secretary work properly.  
 * A GitHub user token with access to all deployed repositories is needed, note that it can't be a organization token.
 
 ## Create deploy
@@ -47,7 +46,7 @@ export SECRETARY_WEB_PASS='password'
 # Rails secret token
 export SECRETARY_SECRET_TOKEN='.........'
 # For usage of the GitHub API
-export SECRETARY_GITHUB_ORG_NAME='...'     # GitHub organization name  
+export SECRETARY_GITHUB_ORG_NAME='...'     # GitHub organization name or username
 export SECRETARY_GITHUB_ACCESS_TOKEN='...' # Access token GitHub (can't be an organization token), that has access to all repositories
 $ git clone git@github.com:trialbee/meta-secretary.git
 # If you want to deploy to Heroku:

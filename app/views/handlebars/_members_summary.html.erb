@@ -18,7 +18,7 @@
   <ul>
     {{#each teams}}
       <li>
-        <%= link_to '{{name}}', "#{github_teams_url}/{{name}}", target: '_blank'  %>
+        <%= link_to '{{name}}', "#{GithubApi.new.organization.github_teams_url}/{{name}}", target: '_blank'  %>
       </li>
     {{/each}}
   </ul>

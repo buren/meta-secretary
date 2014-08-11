@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  def render_panel title, content = nil, opts = {}, &block
+  def render_panel(title, content = nil, opts = {}, &block)
     options = { icon: '' }.merge(opts)
     content_tag :div, class: 'panel panel-default' do
       html = content_tag :div, class: 'panel-heading' do
@@ -16,20 +16,20 @@ module ApplicationHelper
     end
   end
 
-  def render_timeline_list &block
+  def render_timeline_list(&block)
     content_tag :ul, class: 'timeline' do
       capture(&block)
     end
   end
 
-  def render_timeline_item title, time, opts = {}, &block
+  def render_timeline_item(title, time, opts = {}, &block)
     options = {
       icon:       'upload',
       event_type: 'success',
       left:       true,
       render_li:  true
     }.merge(opts)
-    inner_content = render 'shared/timeline_item', title: title, time: time, body: capture(&block), icon: options[:icon], event_type: options[:event_type]
+    inner_content = render('shared/timeline_item', title: title, time: time, body: capture(&block), icon: options[:icon], event_type: options[:event_type])
     if options[:render_li]
       content_tag :li, inner_content, class: "#{options[:left] ? '' : MetaDefines::View::TIMELINE_INVERTED_LI}"
     else
@@ -37,7 +37,7 @@ module ApplicationHelper
     end
   end
 
-  def render_handlebar path, opts = {}, &block
+  def render_handlebar(path, opts = {}, &block)
     options = {
       tag: :div
     }.merge(opts)
@@ -50,7 +50,7 @@ module ApplicationHelper
     html += render_handlebar_target(id, options)
   end
 
-  def bootstrap_class_for flash_type
+  def bootstrap_class_for(flash_type)
     case flash_type
       when :success
         "alert-success"
@@ -66,7 +66,7 @@ module ApplicationHelper
   end
 
   private
-    def render_handlebar_target id, options
+    def render_handlebar_target(id, options)
       handlebar_class = MetaDefines::Handlebars::TARGET_CLASS
       content_tag options[:tag], class: "#{handlebar_class} #{options[:class]}", id: id, data: { id: id } do
         content_tag :p do

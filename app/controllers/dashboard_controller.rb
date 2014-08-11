@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
 
   def home
-    @github = GithubAPI.new
+    @github = GithubApi.new
   end
 
 end

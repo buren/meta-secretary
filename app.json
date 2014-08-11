@@ -18,7 +18,7 @@
       "required": true
     },
     "SECRETARY_GITHUB_ACCESS_TOKEN": {
-      "description": "Access token GitHub (can't be an organization token), that has access to all repositories",
+      "description": "GitHub access token, that has access to all repositories. Can't be an organization token",
       "required": true
     },
     "SECRETARY_GITHUB_ORG_NAME": {

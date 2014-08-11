@@ -1,6 +1,6 @@
 module IconHelper
 
-  def icon_for type, html_class =  ''
+  def icon_for(type, html_class =  '')
     icon_class =  Array.new
     icon_class << 'fa'
     icon_class << icon_string_for(type)
@@ -11,7 +11,7 @@ module IconHelper
 
   private
 
-  def icon_string_for type
+  def icon_string_for(type)
     case type
       when :chart
         'fa-bar-chart-o'

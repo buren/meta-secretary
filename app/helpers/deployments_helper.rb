@@ -9,7 +9,7 @@ module DeploymentsHelper
     Deployment.deployed_application_names.length
   end
 
-  def app_and_server_for deployment
+  def app_and_server_for(deployment)
     res  = deployment.application
     res += '<br>'
     res += "(#{deployment.server})" unless deployment.server.blank?

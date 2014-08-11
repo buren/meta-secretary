@@ -44,13 +44,13 @@ class GithubController < ApplicationController
 
   def members_summary
     members = Array.new
-    @github.members.each do |member|
+    @github.organization.members.each do |member|
       members << {
         login:    member.login,
         html_url: member.html_url
       }
     end
-    teams = @github.teams.map { |team| { name: team.name } }
+    teams = @github.organization.teams.map { |team| { name: team.name } }
     members_summary = {
       members:      members,
       member_count: members.length,
@@ -71,7 +71,7 @@ class GithubController < ApplicationController
   end
 
   def commits_before
-    # TODO: Extract to GithubAPI
+    # TODO: Extract to GithubApi
     index = -1
     commits_before_reslut = @github.commits_before(params[:repo], params[:sha])
     commit_shas = commits_before_reslut.map(&:sha)
@@ -90,7 +90,7 @@ class GithubController < ApplicationController
 
   private
     def set_github
-      @github = GithubAPI.new
+      @github = GithubApi.new
     end
 
     def build_commit_hash_for(deploys, commit, index)

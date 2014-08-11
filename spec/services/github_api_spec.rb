@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe GithubAPI, no_travis: true do
+describe GithubApi, no_travis: true do
 
   before (:each) do
-    @github = GithubAPI.new
+    @github = GithubApi.new
   end
 
   it 'should return public repo count' do
@@ -27,11 +27,11 @@ describe GithubAPI, no_travis: true do
   end
 
   it 'should return a list of organization members' do
-    @github.members.should be_a Array
+    @github.organization.members.should be_a Array
   end
 
   it 'should return a list of organization teams' do
-    @github.teams.should be_a Array
+    @github.organization.teams.should be_a Array
   end
 
   it 'should return a list of repository issues' do
@@ -59,22 +59,22 @@ describe GithubAPI, no_travis: true do
   end
 
   it 'should return the organization url' do
-    github = GithubAPI.new(organization: 'codeforamerica')
+    github = GithubApi.new(owner: 'codeforamerica')
     github.org_url.should eq "https://github.com/codeforamerica"
   end
 
   it 'should return github_teams_url' do
-    @github.github_teams_url.should include('/orgs/')
-    @github.github_teams_url.should include('/teams')
+    @github.organization.github_teams_url.should include('/orgs/')
+    @github.organization.github_teams_url.should include('/teams')
   end
 
   it 'should return github_commit_url' do
-    github = GithubAPI.new(organization: 'codeforamerica', base_url: 'https://github.com')
+    github = GithubApi.new(owner: 'codeforamerica', base_url: 'https://github.com')
     github.github_commit_url('codeforamerica.org', 'ad797b1959387e7d1fb7c53c27acaa284ad2ef09').should eq('https://github.com/codeforamerica/codeforamerica.org/commit/ad797b1959387e7d1fb7c53c27acaa284ad2ef09')
   end
 
   it 'should return github_commit_url' do
-    github = GithubAPI.new(organization: 'codeforamerica', base_url: 'https://github.com')
+    github = GithubApi.new(owner: 'codeforamerica', base_url: 'https://github.com')
     github.github_diff_url('codeforamerica.org', 'ad797b1959387e7d1fb7c53c27acaa284ad2ef09', '469a9c072f321d10427ec5da188ec7e4dfe520bc').should eq('https://github.com/codeforamerica/codeforamerica.org/compare/ad797b1959387e7d1fb7c53c27acaa284ad2ef09...469a9c072f321d10427ec5da188ec7e4dfe520bc')
   end
 
@@ -111,7 +111,7 @@ describe GithubAPI, no_travis: true do
   end
 
   it 'should extract repository name from GitHub milestone URL' do
-    github = GithubAPI.new(organization: 'codeforamerica')
+    github = GithubApi.new(owner: 'codeforamerica')
     name   = github.send(:repo_name_from_milestone_url, 'https://github.com/codeforamerica/codeforamerica.org/milestones/1') # Call private method
     name.should eq 'codeforamerica.org'
     name =   github.send(:repo_name_from_milestone_url, 'codeforamerica/codeforamerica.org/milestones/1')
@@ -119,18 +119,37 @@ describe GithubAPI, no_travis: true do
   end
 
   it 'should return last year commit stats for repository' do
-    github = GithubAPI.new(organization: 'codeforamerica')
+    github = GithubApi.new(owner: 'codeforamerica')
     stats  = github.send(:last_year_commit_stat, 'codeforamerica.org')
     stats[:name].should eq 'codeforamerica.org'
     stats[:data].should be_a Hash
   end
 
   it 'should return previous commits from commit sha' do
-    github = GithubAPI.new(organization: 'codeforamerica')
+    github = GithubApi.new(owner: 'codeforamerica')
     stats  = github.commits_before('codeforamerica.org', '93778b3e8f7c4bb9a45375a689149bd4e36dd478')
     stats.should be_a Array
     stats.length.should eq 30
     stats.first[:sha].should eq '93778b3e8f7c4bb9a45375a689149bd4e36dd478'
+  end
+
+  describe 'NilOrganization should return' do
+    it 'self' do
+      gh = GithubApi.new(owner: 'buren-trialbee')
+      gh.organization.class.to_s.ends_with?('NilOrganization').should be_true
+    end
+    it 'repositiories' do
+      gh = GithubApi.new(owner: 'buren-trialbee')
+      gh.organization.repositories.class.should eq Array
+    end
+    it 'teams' do
+      gh = GithubApi.new(owner: 'buren-trialbee')
+      gh.organization.teams.class.should eq Array
+    end
+    it 'members' do
+      gh = GithubApi.new(owner: 'buren-trialbee')
+      gh.organization.members.class.should eq Array
+    end
   end
 
 end

@@ -1,40 +1,51 @@
-class GithubAPI
+class GithubApi
+  BASE_URL = MetaDefines::Github::BASE_URL
   DEFAULT_OPTIONS = {
     access_token: MetaDefines::Github::ACCESS_TOKEN,
-    organization: MetaDefines::Github::ORG_NAME,
-    base_url:     MetaDefines::Github::BASE_URL
+    owner:        MetaDefines::Github::ORG_NAME
   }
 
-  def initialize options = {}
-    @options = (DEFAULT_OPTIONS).merge(options)
-    set_github_client_and_organization
+  def initialize(options = {})
+    @options = DEFAULT_OPTIONS.clone.merge(options)
   end
 
-  # Returns total number of public repositories
-  def public_repo_count
-    @org.public_repos
+  # Returns the Octokit GitHub API client
+  def client
+    @client ||= Octokit::Client.new(access_token: @options[:access_token])
   end
 
-  # Returns total number of private repositories
-  def private_repo_count
-    @org.total_private_repos
-  end
-
-  def total_repo_count
-    repositories.length
+  # Returns an organization if the owner is one
+  def organization
+    @organization ||= Github::Organization.new(client, @options[:owner])
   end
 
   # Returns a list of repositories
   def repositories
-    @repositories ||= @client.organization_repositories(@options[:organization])
+    @repositories ||= (organization.repositories.empty? ? client.list_repositories : organization.repositories)
   end
 
-  def find_repo_by_name name
+  # Returns total number of public repositories
+  def public_repo_count
+    repositories.reject { |repo| repo.private? }.length
+  end
+
+  # Returns total number of private repositories
+  def private_repo_count
+    repositories.reject { |repo| not repo.private? }.length
+  end
+
+  # Returns total number of repositories (public and private)
+  def total_repo_count
+    repositories.length
+  end
+
+  def find_repo_by_name(name)
     repositories.reject { |repo| repo unless repo.name.eql?(name) }.first
   end
 
-  def milestones repository
-    @client.list_milestones(repository).map do |milestone|
+  def milestones(repository)
+    milestones = client.list_milestones(repository) rescue Array.new
+    milestones.map do |milestone|
       {
         repository_name:  repo_name_from_milestone_url(milestone.url),
         title:            milestone.title,
@@ -43,21 +54,13 @@ class GithubAPI
         closed_issues:    milestone.closed_issues,
         state:            milestone.state,
         completion_ratio: completion_ratio(milestone.open_issues, milestone.closed_issues).round(0),
-        html_url:         "#{@options[:base_url]}/#{repository}/issues?milestone=#{milestone.number}&state=open"
+        html_url:         "#{BASE_URL}/#{repository}/issues?milestone=#{milestone.number}&state=open"
       }
-    end
+    end.reject { |milestone| milestone[:state].eql?('closed') }
   end
 
-  def members
-    @client.organization_members(@options[:organization])
-  end
-
-  def teams
-    @client.organization_teams(@options[:organization])
-  end
-
-  def issues_for full_repo_name
-    open_issues = @client.issues(full_repo_name)
+  def issues_for(full_repo_name)
+    open_issues = client.issues(full_repo_name) rescue Array.new # Can raise eror if issues is disabled for that repository
     {
       repository_name: shorten_repo_name(full_repo_name),
       open:            open_issues,
@@ -65,69 +68,59 @@ class GithubAPI
     }
   end
 
-  def commits_for repo_name, commit_sha = nil
+  def commits_for(repo_name, commit_sha = nil)
     if commit_sha.nil?
-      @client.commits(repo_name)
+      client.commits(repo_name)
     else
-      @client.commit(repo_name, commit_sha)
+      client.commit(repo_name, commit_sha)
     end
   end
 
-  def commits_before repo_name, commit_sha
+  def commits_before(repo_name, commit_sha)
     raise 'Required argument repo_name not present'  if repo_name.blank?
     raise 'Required argument commit_sha not present' if commit_sha.blank?
-    @client.commits_before(full_repo_name(repo_name), Date.tomorrow.to_s, commit_sha)
+    client.commits_before(full_repo_name(repo_name), Date.tomorrow.to_s, commit_sha)
   end
 
   def last_year_commit_stats
-    repositories.map(&:name).map &method(:last_year_commit_stat)
+    repositories.map(&:name).map(&method(:last_year_commit_stat))
   end
 
   def org_url
-    @org.html_url
+    organization.html_url || client.user.html_url
   end
 
-  def github_teams_url
-    "#{@options[:base_url]}/orgs/#{@options[:organization]}/teams"
+  def github_commit_url(repo_name, commit_sha)
+    "#{GithubApi::BASE_URL}/#{@options[:owner]}/#{repo_name}/commit/#{commit_sha}"
   end
 
-  def github_commit_url repo_name, commit_sha
-    "#{@options[:base_url]}/#{@options[:organization]}/#{repo_name}/commit/#{commit_sha}"
-  end
-
-  def github_diff_url repo_name, commit_tail, commit_head
-    "#{@options[:base_url]}/#{@options[:organization]}/#{repo_name}/compare/#{commit_tail}...#{commit_head}"
+  def github_diff_url(repo_name, commit_tail, commit_head)
+    "#{GithubApi::BASE_URL}/#{@options[:owner]}/#{repo_name}/compare/#{commit_tail}...#{commit_head}"
   end
 
   private
-    def set_github_client_and_organization
-      @client ||= Octokit::Client.new(access_token: @options[:access_token])
-      @org    ||= @client.organization(@options[:organization])
-    end
 
-    def completion_ratio open, closed
+    def completion_ratio(open, closed)
       total = (open + closed)
       return 0   if total.zero?
       return 100 if closed.eql?(total)
       (1.0 - (open.to_f / total.to_f)) * 100
     end
 
-    # Shortens a full repository name
-    def shorten_repo_name repo_full_name
+    def shorten_repo_name(repo_full_name)
       path_index = (repo_full_name.index('/') || -1)
       repo_full_name[(path_index + 1)..repo_full_name.length]
     end
 
-    # Will raise error if not GitHub milestone URL
-    def repo_name_from_milestone_url milestone_url
-      org_name    = @options[:organization]
+    def repo_name_from_milestone_url(milestone_url)
+      org_name    = @options[:owner]
       start_index = (milestone_url.index(org_name) + (org_name.length + 1))
       end_index   = (milestone_url.rindex('milestones') - 2)
       milestone_url[start_index..end_index]
     end
 
-    def last_year_commit_stat repo_name
-      stats  = RetryableCall.perform { @client.commit_activity_stats(full_repo_name(repo_name)) }
+    def last_year_commit_stat(repo_name)
+      stats  = RetryableCall.perform { client.commit_activity_stats(full_repo_name(repo_name)) }
       week = 0
       start_date = 1.year.ago.to_date
       repo_stats = Hash.new
@@ -142,8 +135,8 @@ class GithubAPI
       }
     end
 
-    def full_repo_name repo_name
-      "#{@options[:organization]}/#{repo_name}"
+    def full_repo_name(repo_name)
+      "#{@options[:owner]}/#{repo_name}"
     end
 
 end

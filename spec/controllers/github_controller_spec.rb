@@ -3,7 +3,7 @@ require 'spec_helper'
 describe GithubController, no_travis: true do
 
   before(:each) do
-    Deployment.create(commit_sha: '0123456789', application: 'app_name', repository_name: 'repo_name')
+    Deployment.create(commit_sha: '0123456789', application: 'app_name', repository_name: 'repo_name', server: 'test')
   end
 
   # This should return the minimal set of attributes required to create a valid deployment

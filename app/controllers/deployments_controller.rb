@@ -10,7 +10,7 @@ class DeploymentsController < ApplicationController
   # GET /deployments
   def index
     @deployments = Deployment.all.order(created_at: :asc)
-    @github = GithubAPI.new
+    @github = GithubApi.new
   end
 
   # GET /deployments/1
@@ -90,7 +90,7 @@ class DeploymentsController < ApplicationController
       flash[:error] = t('deploy.diff.no_comparison_value_error')
       redirect_to diff_path(app: application) and return
     end
-    github_url = GithubAPI.new.github_diff_url(repo_name, commit_tail, commit_head)
+    github_url = GithubApi.new.github_diff_url(repo_name, commit_tail, commit_head)
     redirect_to github_url and return
   end
 
