@@ -2,8 +2,8 @@ class Deployment < ActiveRecord::Base
   validates_presence_of :commit_sha, :application, :repository_name, :server
   validates :commit_sha, length: { minimum: 10 }
 
-  scope :latest,        -> (limit) { all.order(id: :desc).limit(limit) }
-  scope :latest_by_app, -> (app)   { where(application: app).latest(1) }
+  scope :latest,        ->(limit) { all.order(id: :desc).limit(limit) }
+  scope :latest_by_app, ->(app)   { where(application: app).latest(1) }
 
   scope :deploys_in_commit, ->(commit_shas) { where(commit_sha: commit_shas) }
 
