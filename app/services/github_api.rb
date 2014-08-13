@@ -1,17 +1,12 @@
 class GithubApi
   BASE_URL = MetaDefines::Github::BASE_URL
-  DEFAULT_OPTIONS = {
-    access_token: MetaDefines::Github::ACCESS_TOKEN,
-    owner:        MetaDefines::Github::ORG_NAME
-  }
 
   def initialize(options = {})
-    @options = DEFAULT_OPTIONS.clone.merge(options)
-  end
-
-  # Returns the Octokit GitHub API client
-  def client
-    @client ||= Octokit::Client.new(access_token: @options[:access_token])
+    # TODO: Don't call User.get directly
+    @options = {
+      access_token: MetaDefines::Github::ACCESS_TOKEN.call,
+      owner:        MetaDefines::Github::USERNAME.call
+    }.merge(options)
   end
 
   # Returns an organization if the owner is one
@@ -21,7 +16,7 @@ class GithubApi
 
   # Returns a list of repositories
   def repositories
-    @repositories ||= (organization.repositories.empty? ? client.list_repositories : organization.repositories)
+    @repositories ||= (organization.exists? ? organization.repositories : client.list_repositories)
   end
 
   # Returns total number of public repositories
@@ -40,11 +35,11 @@ class GithubApi
   end
 
   def find_repo_by_name(name)
-    repositories.reject { |repo| repo unless repo.name.eql?(name) }.first
+    repositories.bsearch { |repo| repo.name.eql?(name) }
   end
 
   def milestones(repository)
-    milestones = client.list_milestones(repository) rescue Array.new
+    milestones = client.list_milestones(repository)
     milestones.map do |milestone|
       {
         repository_name:  repo_name_from_milestone_url(milestone.url),
@@ -60,7 +55,7 @@ class GithubApi
   end
 
   def issues_for(full_repo_name)
-    open_issues = client.issues(full_repo_name) rescue Array.new # Can raise eror if issues is disabled for that repository
+    open_issues = client.issues(full_repo_name)
     {
       repository_name: shorten_repo_name(full_repo_name),
       open:            open_issues,
@@ -99,6 +94,11 @@ class GithubApi
   end
 
   private
+
+    # Returns the Octokit GitHub API client
+    def client
+      @client ||= Github::ApiProxy.new(@options[:access_token])
+    end
 
     def completion_ratio(open, closed)
       total = (open + closed)

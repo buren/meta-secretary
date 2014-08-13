@@ -57,8 +57,14 @@
   </div>
 </div>
 
-<%= link_to t('deploy.new_deployment'), new_deployment_path %>
+<div class="row">
+  <div class="col-md-12">
+    <%= render 'shared/deploy_code_shell' %>
+  </div>
+</div>
 
+<%= link_to t('deploy.new_deployment'), new_deployment_path, class: 'btn btn-default' %>
+<br><br>
 <script>
   $('#deploy-table').dataTable();
 </script>

@@ -1,0 +1,16 @@
+<h1><%= t('user.editing_user') %></h1>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= bootstrap_form_for(@user) do |f| %>
+      <%= f.text_field :meta_access_token, disabled: true %>
+    <% end %>
+    <%= render 'form' %>
+  </div>
+  <div class="col-md-6">
+    <%= render 'shared/deploy_code_shell' %>
+  </div>
+</div>
+
+<%= link_to 'Back', users_path %>
+

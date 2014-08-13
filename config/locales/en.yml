@@ -31,6 +31,9 @@ en:
     latest_commits: 'Latest commits'
     latest_deployments: 'Latest deployments'
     child_commits_for: 'Previous commits for'
+    api_key: 'API key'
+    forbidden: '403 Unauthorized'
+    create_with_curl: 'Create a new deploy with this cURL command'
   deploy:
     diff:
       title: 'Diff %{app} deployments'
@@ -72,3 +75,14 @@ en:
     github_member_summary: 'GitHub Members'
     github_team_summary: 'GitHub Teams'
     repo_commit_stat: 'Commit stats by repository'
+  user:
+    user: 'User'
+    unique_user_notice: 'Not authorized. Only one user is allowed.'
+    new_user: 'New user'
+    editing_user: 'Editing user'
+    created: 'Successfully created user. You can now create deploys using the following API key: %{api_key}. You can always find your API key by clicking the key-icon.'
+    updated: 'Successfully updated user.'
+    username_note: 'Username for logging in to this app.'
+    github_access_token_note: "GitHub user access token, with access to all repositories. Can't be an organization token."
+    github_owner_name_note: 'GitHub username (preferably an organization account).'
+    password_note: 'No "forgot password" dialog, only console access..'

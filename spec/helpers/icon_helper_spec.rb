@@ -58,6 +58,11 @@ describe IconHelper do
       icon.should eq content_tag(:i, nil, class: 'fa fa-bell fa-fw ')
     end
 
+    it 'for key' do
+      icon = icon_for :key
+      icon.should eq content_tag(:i, nil, class: 'fa fa-key fa-fw ')
+    end
+
     it 'adds extra html class when given argument' do
       html_class = 'whatever'
       icon = icon_for :bell, html_class

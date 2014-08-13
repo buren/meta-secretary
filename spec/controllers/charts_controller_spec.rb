@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe ChartsController do
 
+  before(:each) do
+    controller.send(:extend, GithubControllerSetter)
+    controller.send(:set_github_mock, GithubApiMock.new)
+  end
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in GithubController.
   def valid_session
