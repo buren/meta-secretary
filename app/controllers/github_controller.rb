@@ -1,12 +1,12 @@
 class GithubController < ApplicationController
   include ActionView::Helpers::DateHelper
 
-  before_action :set_github
+  before_action :github
 
   LATEST_DEPLOY_LIMIT = 3
 
   def issue_summary
-    repos = @github.repositories.map { |repo| @github.issues_for(repo.full_name) }
+    repos = github.repositories.map { |repo| github.issues_for(repo.full_name) }
     render json: { repositories: repos }
   end
 
@@ -17,7 +17,7 @@ class GithubController < ApplicationController
         repository_name: deployment.repository_name,
         server:          deployment.server,
         commit_sha:      deployment.commit_sha[0..10],
-        html_url:        @github.github_commit_url(deployment.repository_name, deployment.commit_sha)
+        html_url:        github.github_commit_url(deployment.repository_name, deployment.commit_sha)
       }
     end
     render json: { deploys: latest_deploys }
@@ -25,7 +25,7 @@ class GithubController < ApplicationController
 
   def repositories_summary
     repos = Array.new
-    @github.repositories.each do |repo|
+    github.repositories.each do |repo|
       repos << {
         name:     repo.name,
         html_url: repo.html_url,
@@ -33,24 +33,24 @@ class GithubController < ApplicationController
       }
     end
     repositories_summary = {
-      public_repo_count:  @github.public_repo_count,
-      private_repo_count: @github.private_repo_count,
-      total_repo_count:   @github.total_repo_count,
+      public_repo_count:  github.public_repo_count,
+      private_repo_count: github.private_repo_count,
+      total_repo_count:   github.total_repo_count,
       repositories:       repos,
-      organization_link:  @github.org_url
+      organization_link:  github.org_url
     }
     render json: repositories_summary
   end
 
   def members_summary
     members = Array.new
-    @github.organization.members.each do |member|
+    github.organization.members.each do |member|
       members << {
         login:    member.login,
         html_url: member.html_url
       }
     end
-    teams = @github.organization.teams.map { |team| { name: team.name } }
+    teams = github.organization.teams.map { |team| { name: team.name } }
     members_summary = {
       members:      members,
       member_count: members.length,
@@ -61,10 +61,10 @@ class GithubController < ApplicationController
   end
 
   def milestones
-    repo_milestones = @github.repositories.map do |repo|
+    repo_milestones = github.repositories.map do |repo|
       {
         repository_name: repo.name,
-        milestones:      @github.milestones(repo.full_name)
+        milestones:      github.milestones(repo.full_name)
       }
     end.reject { |e| e[:milestones].blank? }
     render json: { repo_milestones: repo_milestones }
@@ -73,7 +73,7 @@ class GithubController < ApplicationController
   def commits_before
     # TODO: Extract to GithubApi
     index = -1
-    commits_before_reslut = @github.commits_before(params[:repo], params[:sha])
+    commits_before_reslut = github.commits_before(params[:repo], params[:sha])
     commit_shas = commits_before_reslut.map(&:sha)
     @deploys_in_commits = Deployment.deploys_in_commit(commit_shas)
     commits = commits_before_reslut.map do |commit|
@@ -89,8 +89,8 @@ class GithubController < ApplicationController
   end
 
   private
-    def set_github
-      @github = GithubApi.new
+    def github
+      @github ||= GithubApi.new
     end
 
     def build_commit_hash_for(deploys, commit, index)

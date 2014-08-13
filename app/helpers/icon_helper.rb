@@ -35,6 +35,8 @@ module IconHelper
         'fa-user'
       when :bell
         'fa-bell'
+      when :key
+        'fa-key'
       else
         raise "Unknown icon type '#{type}'"
     end

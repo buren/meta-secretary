@@ -1,12 +1,12 @@
 module Github
   class Organization
 
-    def Organization.new(client, organization_name)
+    def Organization.new(api_client, organization_name)
       begin
-        github_org = client.organization(organization_name)
-        super(client, organization_name, github_org)
+        github_org = api_client.organization(organization_name) or return NilOrganization.new(api_client)
+        super(api_client, organization_name, github_org)
       rescue Exception => e
-        NilOrganization.new(client)
+        NilOrganization.new(api_client)
       end
     end
 
@@ -14,6 +14,10 @@ module Github
       @client   = client
       @org_name = organization_name
       @org      = github_org
+    end
+
+    def exists?
+      true
     end
 
     def repositories
@@ -38,8 +42,12 @@ module Github
 
     class NilOrganization
 
-      def initialize(client)
-        @client = client
+      def initialize(api_client)
+        @client = api_client
+      end
+
+      def exists?
+        false
       end
 
       def repositories

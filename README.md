@@ -1,5 +1,5 @@
 # Meta secretary
-Simple Rails app to keep track of deploys.
+Simple Rails app that keep track of deploys.
 
 [![Code Climate](https://codeclimate.com/github/trialbee/meta-secretary.png)](https://codeclimate.com/github/trialbee/meta-secretary)
 [![Build Status](https://travis-ci.org/trialbee/meta-secretary.png?branch=master)](https://travis-ci.org/trialbee/meta-secretary)
@@ -10,9 +10,12 @@ Simple Rails app to keep track of deploys.
 - [Contributing](#contributing)
 - [Tests](#tests)
 - [Technology](#technology)
+- [MIT License](LICENSE)
 
 ## About
-Meta Secretary is a simple Rails app to keep track of deploys for code that is hosted on GitHub.  
+Meta Secretary is a simple Rails app, deployable in minutes, that keep track of deploys for code hosted on GitHub.
+
+Prerequisites:
 * A GitHub user token with access to all deployed repositories is needed, note that it can't be a organization token.
 
 ## Create deploy
@@ -21,6 +24,8 @@ Meta Secretary is a simple Rails app to keep track of deploys for code that is h
 # Optional: ip_address, tag
 #
 # repository_name must be the name used on GitHub
+#
+#
 
 $ curl -X POST -d \
 '{
@@ -32,22 +37,17 @@ $ curl -X POST -d \
     "tag": "",
     "ip_address": ""
   }
-}' http://user:password@example-meta.herokuapp.com/new_deployment --header "Content-Type:application/json"
+}' https://example-meta.herokuapp.com/new_deployment --header "Authorization: Token token=$META_ACCESS_TOKEN" --header "Content-Type:application/json"
 ```
+note that you need to change the authorization token.
 
 ## Production Setup
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 Or you can deploy manually:
 ```bash
-# HTTP basic authentication
-export SECRETARY_WEB_USER='user'
-export SECRETARY_WEB_PASS='password'
 # Rails secret token
-export SECRETARY_SECRET_TOKEN='.........'
-# For usage of the GitHub API
-export SECRETARY_GITHUB_ORG_NAME='...'     # GitHub organization name or username
-export SECRETARY_GITHUB_ACCESS_TOKEN='...' # Access token GitHub (can't be an organization token), that has access to all repositories
+export SECRETARY_SECRET_TOKEN=$(rake secret)
 $ git clone git@github.com:trialbee/meta-secretary.git
 # If you want to deploy to Heroku:
 $ heroku apps:create example-meta # choose a name
@@ -59,8 +59,9 @@ $ heroku restart
 
 ## Updating Meta Secretary
 ```bash
-  $ export $META_SECRETARY_URL='https://user:password@example-meta.herokuapp.com'
-  $ bash --login deploy.sh # --login is needed if META_SECRETARY_URL is set in bash_profile
+$ export $META_SECRETARY_URL='https://example-meta.herokuapp.com'
+$ export $META_ACCESS_TOKEN='...'
+$ bash --login deploy.sh
 ```
 
 ## Contributing
@@ -86,7 +87,7 @@ $ guard
 
 ## Technology
 
-* Ruby 2.0
+* Ruby 2.0 (works with Ruby 2.1 & 1.9.3)
 * Ruby on Rails 4.0
 * MySQL      (development)
 * PostgreSQL (production)
@@ -94,4 +95,4 @@ $ guard
 * jQuery 1.10
 * jQuery.dataTables 1.9.4
 * Handlebars.js 1.3.0
-* Unicorn (application server)
+* Unicorn 4.8 (application server)

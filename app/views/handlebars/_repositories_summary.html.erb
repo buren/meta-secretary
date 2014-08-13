@@ -22,7 +22,7 @@
     </table>
     <p>
       <%= link_to '{{organization_link}}', class: 'btn btn-default pull-right', target: '_blank' do %>
-        <%= MetaDefines::Github::ORG_NAME.capitalize %>
+        <%= current_user.username %>
         <%= icon_for :github %>
       <% end %>
     </p>
@@ -39,4 +39,3 @@
     </ul>
   </div>
 <% end %>
-

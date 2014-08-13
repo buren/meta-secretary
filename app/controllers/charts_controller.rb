@@ -24,10 +24,14 @@ class ChartsController < ApplicationController
   end
 
   def last_year_commit_stats
-    render json: GithubApi.new.last_year_commit_stats
+    render json: github.last_year_commit_stats
   end
 
   private
+
+    def github
+      @github ||= GithubApi.new
+    end
 
     def deploys_by_app(&block)
       Deployment.unique_applications.map do |app_name|

@@ -3,7 +3,8 @@ require 'spec_helper'
 describe GithubApi, no_travis: true do
 
   before (:each) do
-    @github = GithubApi.new
+    @github      = GithubApiMock.new(owner: 'codeforamerica', access_token: ENV['SECRETARY_GITHUB_ACCESS_TOKEN'])
+    @github_user = GithubApiMock.new(owner: 'buren')
   end
 
   it 'should return public repo count' do
@@ -54,13 +55,13 @@ describe GithubApi, no_travis: true do
   end
 
   it 'should find repo by name' do
-    repo = @github.find_repo_by_name('portal')
-    repo[:name].should eq('portal')
+    repo = @github.find_repo_by_name('mock-repo')
+    repo[:name].should eq('mock-repo')
   end
 
   it 'should return the organization url' do
-    github = GithubApi.new(owner: 'codeforamerica')
-    github.org_url.should eq "https://github.com/codeforamerica"
+    github = @github
+    github.org_url.should eq 'https://example.com/mock-url'
   end
 
   it 'should return github_teams_url' do
@@ -79,7 +80,7 @@ describe GithubApi, no_travis: true do
   end
 
   it 'should calculate completion_ratio' do
-    ratio = @github.send(:completion_ratio, 0, 0) # Call private method
+    ratio = @github.send(:completion_ratio, 0, 0)
     ratio.should eq 0
     ratio = @github.send(:completion_ratio, 0.0, 0.0)
     ratio.should eq 0
@@ -111,7 +112,7 @@ describe GithubApi, no_travis: true do
   end
 
   it 'should extract repository name from GitHub milestone URL' do
-    github = GithubApi.new(owner: 'codeforamerica')
+    github = @github
     name   = github.send(:repo_name_from_milestone_url, 'https://github.com/codeforamerica/codeforamerica.org/milestones/1') # Call private method
     name.should eq 'codeforamerica.org'
     name =   github.send(:repo_name_from_milestone_url, 'codeforamerica/codeforamerica.org/milestones/1')
@@ -119,37 +120,34 @@ describe GithubApi, no_travis: true do
   end
 
   it 'should return last year commit stats for repository' do
-    github = GithubApi.new(owner: 'codeforamerica')
+    github = @github
     stats  = github.send(:last_year_commit_stat, 'codeforamerica.org')
     stats[:name].should eq 'codeforamerica.org'
     stats[:data].should be_a Hash
   end
 
   it 'should return previous commits from commit sha' do
-    github = GithubApi.new(owner: 'codeforamerica')
+    github = @github
     stats  = github.commits_before('codeforamerica.org', '93778b3e8f7c4bb9a45375a689149bd4e36dd478')
     stats.should be_a Array
     stats.length.should eq 30
-    stats.first[:sha].should eq '93778b3e8f7c4bb9a45375a689149bd4e36dd478'
+    stats.first[:sha].should eq '9ea6a6dd5439843ad238ca761d0df102bf4dda93'
   end
 
   describe 'NilOrganization should return' do
-    it 'self' do
-      gh = GithubApi.new(owner: 'buren-trialbee')
-      gh.organization.class.to_s.ends_with?('NilOrganization').should be_true
-    end
+
     it 'repositiories' do
-      gh = GithubApi.new(owner: 'buren-trialbee')
-      gh.organization.repositories.class.should eq Array
+      @github_user.organization.repositories.class.should eq Array
     end
+
     it 'teams' do
-      gh = GithubApi.new(owner: 'buren-trialbee')
-      gh.organization.teams.class.should eq Array
+      @github_user.organization.teams.class.should eq Array
     end
+
     it 'members' do
-      gh = GithubApi.new(owner: 'buren-trialbee')
-      gh.organization.members.class.should eq Array
+      @github_user.organization.members.class.should eq Array
     end
+
   end
 
 end

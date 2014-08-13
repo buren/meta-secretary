@@ -1,4 +1,6 @@
 MetaSecretary::Application.routes.draw do
+  resources :users, except: [:destroy, :index, :show]
+
   resources :deployments
 
   post 'new_deployment', to: 'deployments#create_remote_deployment'

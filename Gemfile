@@ -43,8 +43,10 @@ group :development do
 	gem 'awesome_print'
   gem 'quiet_assets'
   gem 'newrelic_rpm'
-	gem 'bullet' # detects common sql query mistakes
+	gem 'bullet' # detects common SQL mistakes
   gem 'rb-fsevent', '~> 0.9.1' # Enables guard to detect file changes osx
 end
+
+gem 'bcrypt', '~> 3.1.7', require: true
 
 gem 'unicorn'

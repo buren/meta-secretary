@@ -1,0 +1,16 @@
+<div class="well code-well">
+  <code class="prettyprint lang-sh">
+    # <%= t('common.create_with_curl') %><br>
+    curl -X POST -d \<br>
+    '{<br>
+      &nbsp;&nbsp;"deployment": {<br>
+      &nbsp;&nbsp;  "commit_sha": "",<br>
+      &nbsp;&nbsp;  "server": "",<br>
+      &nbsp;&nbsp;  "application": "",<br>
+      &nbsp;&nbsp;  "repository_name": "",<br>
+      &nbsp;&nbsp;  "tag": "",<br>
+      &nbsp;&nbsp;  "ip_address": ""<br>
+      &nbsp;&nbsp;}<br>
+    }' <%= "#{request.protocol}#{request.domain}" %>/new_deployment --header "Authorization: Token token=<%= User.get.try(:meta_access_token) %>" --header "Content-Type:application/json"
+  </code>
+</div>

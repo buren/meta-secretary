@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-if [[ -z $META_SECRETARY_URL ]];then
-  echo "The variable META_SECRETARY_URL must be set!"
+if [[ -z $META_SECRETARY_URL || -z $META_ACCESS_TOKEN ]];then
+  echo "Both META_SECRETARY_URL and META_ACCESS_TOKEN must be set!"
   echo "Exiting..."
   exit 1
 fi
@@ -18,7 +18,7 @@ curl -X POST -d \
     "repository_name": "meta-secretary",
     "ip_address": ""
   }
-}' $META_SECRETARY_URL/new_deployment --header "Content-Type:application/json" \
+}' $META_SECRETARY_URL/new_deployment  --header "Authorization: Token token=$META_ACCESS_TOKEN" --header "Content-Type:application/json" \
 && echo 'POST request sent' || echo "POST request to $META_SECRETARY_URL/new_deployment failed"
 echo "Pushing master branch to heroku"
 git push heroku master

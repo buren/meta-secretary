@@ -2,21 +2,9 @@ require 'spec_helper'
 
 describe MetaDefines do
 
-  describe 'Auth' do
-    it 'should have all constants defined for HTTP Basic Auth' do
-      MetaDefines::Auth::USER.should_not     be_nil
-      MetaDefines::Auth::PASSWORD.should_not be_nil
-    end
-  end
-
   describe 'Github' do
     it 'should have constants defined for GitHub' do
       MetaDefines::Github::BASE_URL.should eq  'https://github.com'
-      MetaDefines::Github::ORG_NAME.should_not be_nil
-    end
-
-    it 'should have constant defined for GitHub access token', no_travis: true do
-      MetaDefines::Github::ACCESS_TOKEN.should_not be_nil
     end
   end
 

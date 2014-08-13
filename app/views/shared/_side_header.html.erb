@@ -53,6 +53,18 @@
           <% end %>
         </ul>
       </li>
+      <% if current_user %>
+      <li>
+        <%= link_to '#' do %>
+          <%= icon_for :user %>
+          <%= t('user.user') %>
+          <span class="fa arrow"></span>
+        <% end %>
+        <ul class="nav nav-second-level">
+          <li><%= link_to t('common.edit'), edit_user_path(current_user) %></li>
+        </ul>
+      </li>
+      <% end %>
     </ul>
     <!-- /#side-menu -->
   </div>

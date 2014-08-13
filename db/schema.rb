@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406225758) do
+ActiveRecord::Schema.define(version: 20140812094146) do
+
+  create_table "api_keys", force: true do |t|
+    t.string   "access_token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "deployments", force: true do |t|
     t.string   "commit_sha"
@@ -22,6 +28,17 @@ ActiveRecord::Schema.define(version: 20140406225758) do
     t.datetime "updated_at"
     t.string   "ip_address"
     t.string   "repository_name"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "github_access_token"
+    t.string   "github_owner_name"
+    t.string   "username"
+    t.string   "password_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "password_salt"
+    t.string   "meta_access_token"
   end
 
 end

@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe DeploymentsController do
+  include AuthHelper
+
+  before(:each) do
+    http_login
+  end
 
   # This should return the minimal set of attributes required to create a valid deployment
   def valid_attributes
@@ -63,7 +68,6 @@ describe DeploymentsController do
         response.should redirect_to(Deployment.last)
       end
     end
-
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved deployment as @deployment" do

@@ -4,6 +4,8 @@ describe GithubController, no_travis: true do
 
   before(:each) do
     Deployment.create(commit_sha: '0123456789', application: 'app_name', repository_name: 'repo_name', server: 'test')
+    controller.send(:extend, GithubControllerSetter)
+    controller.send(:set_github_mock, GithubApiMock.new)
   end
 
   # This should return the minimal set of attributes required to create a valid deployment
@@ -71,12 +73,11 @@ describe GithubController, no_travis: true do
 
   describe "GET commits_before" do
     it "returns 500 response and returns JSON with INVALID params" do
-      expect { get :commits_before, {repo: '', sha: ''} }.to raise_error
+      expect { get :commits_before, { repo: '', sha: '' } }.to raise_error
     end
 
     it "returns 200 response and returns JSON with VALID params" do
-      # TODO: Don't let test depend on private repository: meta-secretary
-      get :commits_before, {repo: 'meta-secretary', sha: '2e28d9160e2132d0503d929e2895da6472e2467b'}
+      get :commits_before, { repo: 'mock-repo', sha: '9ea6a6dd5439843ad238ca761d0df102bf4dda93' }
       expect(response.status).to eq(200)
       json = JSON.parse(response.body)
       expect(json["commits"]).to_not be_nil
@@ -90,7 +91,7 @@ describe GithubController, no_travis: true do
     end
 
     it "returns 200 response on valid repo and sha param" do
-      get :commits, {repo: 'meta-secretary', sha: '2e28d9160e2132d0503d929e2895da6472e2467b'}
+      get :commits, { repo: 'mock-repo', sha: '9ea6a6dd5439843ad238ca761d0df102bf4dda93' }
       expect(response.status).to eq(200)
     end
   end

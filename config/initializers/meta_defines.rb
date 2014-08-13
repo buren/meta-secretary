@@ -1,15 +1,10 @@
 module MetaDefines
   APP_NAME = 'Meta Secretary'
 
-  module Auth
-    USER     = ENV['SECRETARY_WEB_USER']
-    PASSWORD = ENV['SECRETARY_WEB_PASS']
-  end
-
   module Github
     BASE_URL     = 'https://github.com'
-    ACCESS_TOKEN = ENV['SECRETARY_GITHUB_ACCESS_TOKEN']
-    ORG_NAME     = ENV['SECRETARY_GITHUB_ORG_NAME']
+    ACCESS_TOKEN = -> { User.get.try(:github_access_token) }
+    USERNAME     = -> { User.get.try(:github_owner_name)   }
   end
 
   module Handlebars
