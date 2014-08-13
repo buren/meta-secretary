@@ -37,7 +37,9 @@ $ curl -X POST -d \
     "tag": "",
     "ip_address": ""
   }
-}' https://example-meta.herokuapp.com/new_deployment --header "Authorization: Token token=$META_ACCESS_TOKEN" --header "Content-Type:application/json"
+}' https://example-meta.herokuapp.com/new_deployment \
+  --header "Authorization: Token token=$META_ACCESS_TOKEN" \
+  --header "Content-Type:application/json"
 ```
 note that you need to change the authorization token.
 
