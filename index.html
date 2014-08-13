@@ -31,7 +31,7 @@
           <h1>
 <a name="meta-secretary" class="anchor" href="#meta-secretary"><span class="octicon octicon-link"></span></a>Meta secretary</h1>
 
-<p>Simple Rails app to keep track of deploys.</p>
+<p>Simple Rails app that keep track of deploys.</p>
 
 <p><a href="https://codeclimate.com/github/trialbee/meta-secretary"><img src="https://codeclimate.com/github/trialbee/meta-secretary.png" alt="Code Climate"></a>
 <a href="https://travis-ci.org/trialbee/meta-secretary"><img src="https://travis-ci.org/trialbee/meta-secretary.png?branch=master" alt="Build Status"></a></p>
@@ -43,10 +43,13 @@
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#tests">Tests</a></li>
 <li><a href="#technology">Technology</a></li>
+<li><a href="LICENSE">MIT License</a></li>
 </ul><h2>
 <a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
 
-<p>Meta Secretary is a simple Rails app to keep track of deploys for code that is hosted on GitHub.  </p>
+<p>Meta Secretary is a simple Rails app, deployable in minutes, that keep track of deploys for code hosted on GitHub.</p>
+
+<p>Prerequisites:</p>
 
 <ul>
 <li>A GitHub user token with access to all deployed repositories is needed, note that it can't be a organization token.</li>
@@ -57,6 +60,8 @@
 <span class="c"># Optional: ip_address, tag</span>
 <span class="c">#</span>
 <span class="c"># repository_name must be the name used on GitHub</span>
+<span class="c">#</span>
+<span class="c">#</span>
 
 <span class="nv">$ </span>curl -X POST -d <span class="se">\</span>
 <span class="s1">'{</span>
@@ -68,8 +73,12 @@
 <span class="s1">    "tag": "",</span>
 <span class="s1">    "ip_address": ""</span>
 <span class="s1">  }</span>
-<span class="s1">}'</span> http://user:password@example-meta.herokuapp.com/new_deployment --header <span class="s2">"Content-Type:application/json"</span>
+<span class="s1">}'</span> https://example-meta.herokuapp.com/new_deployment <span class="se">\</span>
+  --header <span class="s2">"Authorization: Token token=$META_ACCESS_TOKEN"</span> <span class="se">\</span>
+  --header <span class="s2">"Content-Type:application/json"</span>
 </pre></div>
+
+<p>note that you need to change the authorization token.</p>
 
 <h2>
 <a name="production-setup" class="anchor" href="#production-setup"><span class="octicon octicon-link"></span></a>Production Setup</h2>
@@ -78,14 +87,8 @@
 
 <p>Or you can deploy manually:</p>
 
-<div class="highlight highlight-bash"><pre><span class="c"># HTTP basic authentication</span>
-<span class="nb">export </span><span class="nv">SECRETARY_WEB_USER</span><span class="o">=</span><span class="s1">'user'</span>
-<span class="nb">export </span><span class="nv">SECRETARY_WEB_PASS</span><span class="o">=</span><span class="s1">'password'</span>
-<span class="c"># Rails secret token</span>
-<span class="nb">export </span><span class="nv">SECRETARY_SECRET_TOKEN</span><span class="o">=</span><span class="s1">'.........'</span>
-<span class="c"># For usage of the GitHub API</span>
-<span class="nb">export </span><span class="nv">SECRETARY_GITHUB_ORG_NAME</span><span class="o">=</span><span class="s1">'...'</span>     <span class="c"># GitHub organization name or username</span>
-<span class="nb">export </span><span class="nv">SECRETARY_GITHUB_ACCESS_TOKEN</span><span class="o">=</span><span class="s1">'...'</span> <span class="c"># Access token GitHub (can't be an organization token), that has access to all repositories</span>
+<div class="highlight highlight-bash"><pre><span class="c"># Rails secret token</span>
+<span class="nb">export </span><span class="nv">SECRETARY_SECRET_TOKEN</span><span class="o">=</span><span class="k">$(</span>rake secret<span class="k">)</span>
 <span class="nv">$ </span>git clone git@github.com:trialbee/meta-secretary.git
 <span class="c"># If you want to deploy to Heroku:</span>
 <span class="nv">$ </span>heroku apps:create example-meta <span class="c"># choose a name</span>
@@ -98,8 +101,9 @@
 <h2>
 <a name="updating-meta-secretary" class="anchor" href="#updating-meta-secretary"><span class="octicon octicon-link"></span></a>Updating Meta Secretary</h2>
 
-<div class="highlight highlight-bash"><pre>  <span class="nv">$ </span><span class="nb">export</span> <span class="nv">$META_SECRETARY_URL</span><span class="o">=</span><span class="s1">'https://user:password@example-meta.herokuapp.com'</span>
-  <span class="nv">$ </span>bash --login deploy.sh <span class="c"># --login is needed if META_SECRETARY_URL is set in bash_profile</span>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span><span class="nb">export</span> <span class="nv">$META_SECRETARY_URL</span><span class="o">=</span><span class="s1">'https://example-meta.herokuapp.com'</span>
+<span class="nv">$ </span><span class="nb">export</span> <span class="nv">$META_ACCESS_TOKEN</span><span class="o">=</span><span class="s1">'...'</span>
+<span class="nv">$ </span>bash --login deploy.sh
 </pre></div>
 
 <h2>
@@ -128,7 +132,7 @@
 <a name="technology" class="anchor" href="#technology"><span class="octicon octicon-link"></span></a>Technology</h2>
 
 <ul>
-<li>Ruby 2.0</li>
+<li>Ruby 2.0 (works with Ruby 2.1 &amp; 1.9.3)</li>
 <li>Ruby on Rails 4.0</li>
 <li>MySQL      (development)</li>
 <li>PostgreSQL (production)</li>
@@ -136,7 +140,7 @@
 <li>jQuery 1.10</li>
 <li>jQuery.dataTables 1.9.4</li>
 <li>Handlebars.js 1.3.0</li>
-<li>Unicorn (application server)</li>
+<li>Unicorn 4.8 (application server)</li>
 </ul>
         </section>
 
