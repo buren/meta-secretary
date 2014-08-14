@@ -62,7 +62,7 @@
 <span class="c"># repository_name must be the name used on GitHub</span>
 <span class="c">#</span>
 <span class="c">#</span>
-
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">META_ACCESS_TOKEN</span><span class="o">=</span><span class="s1">'XXXXXXYYYXXX'</span>
 <span class="nv">$ </span>curl -X POST -d <span class="se">\</span>
 <span class="s1">'{</span>
 <span class="s1">  "deployment": {</span>
@@ -87,13 +87,13 @@
 
 <p>Or you can deploy manually:</p>
 
-<div class="highlight highlight-bash"><pre><span class="c"># Rails secret token</span>
-<span class="nb">export </span><span class="nv">SECRETARY_SECRET_TOKEN</span><span class="o">=</span><span class="k">$(</span>rake secret<span class="k">)</span>
-<span class="nv">$ </span>git clone git@github.com:trialbee/meta-secretary.git
-<span class="c"># If you want to deploy to Heroku:</span>
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>git clone git@github.com:trialbee/meta-secretary.git
+<span class="nv">$ </span><span class="nb">cd </span>meta-secretary
+l# If you want to deploy to Heroku:
 <span class="nv">$ </span>heroku apps:create example-meta <span class="c"># choose a name</span>
+<span class="c"># Rails secret token</span>
+<span class="nv">$ </span>heroku config:set <span class="nv">SECRETARY_SECRET_TOKEN</span><span class="o">=</span><span class="k">$(</span>rake secret<span class="k">)</span>
 <span class="nv">$ </span>git push heroku master
-<span class="nv">$ </span>heroku run rake db:create
 <span class="nv">$ </span>heroku run rake db:migrate
 <span class="nv">$ </span>heroku restart
 </pre></div>
