@@ -2,7 +2,6 @@ language: ruby
 rvm:
   - 2.1.2
   - 2.0.0
-  - 1.9.3
 env:
   - SECRETARY_SECRET_TOKEN=not_so_secret
 before_script:

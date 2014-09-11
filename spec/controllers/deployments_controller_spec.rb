@@ -18,7 +18,7 @@ describe DeploymentsController do
     {}
   end
 
-  describe "GET index", no_travis: true do
+  describe "GET index" do
     it "assigns all deployments as @deployments" do
       deployment = Deployment.create! valid_attributes
       get :index, {}, valid_session
@@ -193,7 +193,7 @@ describe DeploymentsController do
     end
   end
 
-  describe "GET diff_route", no_travis: true do
+  describe "GET diff_route" do
     it "returns 302 response with diff_server param" do
       Deployment.create({ commit_sha: '0123456789', application: 'application_name', repository_name: 'repo_name', server: 'server-name' })
       get :diff_route, { app: 'application_name', base_server: 'server-name', diff_server: 'server-name' }

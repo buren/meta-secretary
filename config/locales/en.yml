@@ -33,7 +33,7 @@ en:
     child_commits_for: 'Previous commits for'
     api_key: 'API key'
     forbidden: '403 Unauthorized'
-    create_with_curl: 'Create a new deploy with this cURL command'
+    create_with_curl: 'Create new deploy with this cURL command'
   deploy:
     diff:
       title: 'Diff %{app} deployments'

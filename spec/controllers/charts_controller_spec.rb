@@ -49,7 +49,7 @@ describe ChartsController do
     end
   end
 
-  describe "GET last_year_commit_stats", no_travis: true do
+  describe "GET last_year_commit_stats" do
     it "returns 200 response and returns JSON" do
       get :last_year_commit_stats
       expect(response.status).to eq(200)

@@ -11,6 +11,8 @@
       &nbsp;&nbsp;  "tag": "",<br>
       &nbsp;&nbsp;  "ip_address": ""<br>
       &nbsp;&nbsp;}<br>
-    }' <%= "#{request.protocol}#{request.domain}" %>/new_deployment --header "Authorization: Token token=<%= User.get.try(:meta_access_token) %>" --header "Content-Type:application/json"
+    }' <%= "#{request.protocol}#{request.host}" %>/new_deployment \<br>
+    &nbsp;&nbsp;--header "Authorization: Token token=<%= User.get.try(:meta_access_token) %>" \<br>
+    &nbsp;&nbsp;--header "Content-Type:application/json"
   </code>
 </div>

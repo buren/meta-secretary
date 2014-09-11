@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GithubApi, no_travis: true do
+describe GithubApi do
 
   before (:each) do
     @github      = GithubApiMock.new(owner: 'codeforamerica', access_token: ENV['SECRETARY_GITHUB_ACCESS_TOKEN'])

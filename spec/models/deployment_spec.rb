@@ -95,7 +95,7 @@ describe Deployment do
   it 'should return deploys_by_day', no_travis: true do
     deploy = Deployment.create(commit_sha: '0123456789', application: "app_name", repository_name: 'repo_name', server: 'localghost')
     today = Date.today.strftime("%a")
-    expected = {"Sun"=>0, "Mon"=>0, "Tue"=>0, "Wed"=>0, "Thu"=>0, "Fri"=>0, "Sat"=>0}.merge({today => 1})
+    expected = {"Sun"=>0, "Mon"=>0, "Tue"=>0, "Wed"=>0, "Thu"=>0, "Fri"=>1, "Sat"=>0}.merge({today => 1})
     expect(Deployment.deploys_by_day).to eq(expected)
   end
 

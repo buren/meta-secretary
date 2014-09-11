@@ -26,7 +26,7 @@ Prerequisites:
 # repository_name must be the name used on GitHub
 #
 #
-
+$ export META_ACCESS_TOKEN='XXXXXXYYYXXX'
 $ curl -X POST -d \
 '{
   "deployment": {
@@ -37,7 +37,9 @@ $ curl -X POST -d \
     "tag": "",
     "ip_address": ""
   }
-}' https://example-meta.herokuapp.com/new_deployment --header "Authorization: Token token=$META_ACCESS_TOKEN" --header "Content-Type:application/json"
+}' https://example-meta.herokuapp.com/new_deployment \
+  --header "Authorization: Token token=$META_ACCESS_TOKEN" \
+  --header "Content-Type:application/json"
 ```
 note that you need to change the authorization token.
 
@@ -46,13 +48,13 @@ note that you need to change the authorization token.
 
 Or you can deploy manually:
 ```bash
-# Rails secret token
-export SECRETARY_SECRET_TOKEN=$(rake secret)
 $ git clone git@github.com:trialbee/meta-secretary.git
+$ cd meta-secretary
 # If you want to deploy to Heroku:
 $ heroku apps:create example-meta # choose a name
+# Rails secret token
+$ heroku config:set SECRETARY_SECRET_TOKEN=$(rake secret)
 $ git push heroku master
-$ heroku run rake db:create
 $ heroku run rake db:migrate
 $ heroku restart
 ```
@@ -87,7 +89,7 @@ $ guard
 
 ## Technology
 
-* Ruby 2.0 (works with Ruby 2.1 & 1.9.3)
+* Ruby 2.0 (works with Ruby 2.1)
 * Ruby on Rails 4.0
 * MySQL      (development)
 * PostgreSQL (production)
