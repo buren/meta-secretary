@@ -83,13 +83,13 @@
 <h2>
 <a name="production-setup" class="anchor" href="#production-setup"><span class="octicon octicon-link"></span></a>Production Setup</h2>
 
-<p><a href="https://heroku.com/deploy?template=https://github.com/trialbee/meta-secretary"><img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy"></a></p>
+<p><a href="https://heroku.com/deploy"><img src="https://www.herokucdn.com/deploy/button.png" alt="Deploy"></a></p>
 
 <p>Or you can deploy manually:</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>git clone git@github.com:trialbee/meta-secretary.git
 <span class="nv">$ </span><span class="nb">cd </span>meta-secretary
-l# If you want to deploy to Heroku:
+<span class="c"># If you want to deploy to Heroku:</span>
 <span class="nv">$ </span>heroku apps:create example-meta <span class="c"># choose a name</span>
 <span class="c"># Rails secret token</span>
 <span class="nv">$ </span>heroku config:set <span class="nv">SECRETARY_SECRET_TOKEN</span><span class="o">=</span><span class="k">$(</span>rake secret<span class="k">)</span>
@@ -132,7 +132,7 @@ l# If you want to deploy to Heroku:
 <a name="technology" class="anchor" href="#technology"><span class="octicon octicon-link"></span></a>Technology</h2>
 
 <ul>
-<li>Ruby 2.0 (works with Ruby 2.1 &amp; 1.9.3)</li>
+<li>Ruby 2.0 (works with Ruby 2.1)</li>
 <li>Ruby on Rails 4.0</li>
 <li>MySQL      (development)</li>
 <li>PostgreSQL (production)</li>
