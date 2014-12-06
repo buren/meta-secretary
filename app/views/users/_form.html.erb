@@ -1,6 +1,6 @@
 <%= bootstrap_form_for(@user) do |f| %>
-  <%= f.text_field :github_access_token, help: t('user.github_access_token_note')  %>
-  <%= f.text_field :github_owner_name,   help: t('user.github_owner_name_note')  %>
+  <%= f.text_field :github_access_token, help: t('user.github_access_token_note') unless @user.github_access_token %>
+  <%= f.text_field :github_owner_name,   help: t('user.github_owner_name_note') unless @user.github_owner_name %>
   <%= f.text_field :username,            help: t('user.username_note') %>
   <%= f.text_field :password,            help: t('user.password_note') %>
   <%= f.submit %>
