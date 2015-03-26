@@ -16,7 +16,7 @@ class GithubController < ApplicationController
         application:     deployment.application,
         repository_name: deployment.repository_name,
         server:          deployment.server,
-        commit_sha:      deployment.commit_sha[0..10],
+        commit_sha:      deployment.tag_or_commit_sha[0..10],
         html_url:        github.github_commit_url(deployment.repository_name, deployment.commit_sha)
       }
     end

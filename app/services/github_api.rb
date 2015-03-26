@@ -120,11 +120,11 @@ class GithubApi
     end
 
     def last_year_commit_stat(repo_name)
-      stats  = RetryableCall.perform { client.commit_activity_stats(full_repo_name(repo_name)) }
+      stats = RetryableCall.perform(sleep: 1) { client.commit_activity_stats(full_repo_name(repo_name)) }
       week = 0
       start_date = 1.year.ago.to_date
       repo_stats = Hash.new
-      stats.map do |commit_stat|
+      (stats || []).map do |commit_stat|
         week            += 7
         date             = start_date + week
         repo_stats[date] = commit_stat.total
