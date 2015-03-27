@@ -1,13 +1,4 @@
 <%= content_tag :h1, t('deploy.index'), class: 'page-header' %>
-<div class="row">
-  <div class="col-md-6">
-    <%= render_panel t('deploy.deploys_by_week'), line_chart(charts_deploys_by_week_path) %>
-  </div>
-  <div class="col-md-6">
-    <%= render_panel t('deploy.deploys_by_application'), pie_chart(charts_deploys_by_application_path) %>
-  </div>
-</div>
-
 <div class="panel panel-default">
     <div class="panel-heading">
       <%= t('deploy.index') %> (<%= deployed_app_count_sentence %>)
@@ -44,6 +35,15 @@
     <!-- /.panel-body -->
 </div>
 <!-- /.panel -->
+
+<div class="row">
+  <div class="col-md-6">
+    <%= render_panel t('deploy.deploys_by_week'), line_chart(charts_deploys_by_week_path) %>
+  </div>
+  <div class="col-md-6">
+    <%= render_panel t('deploy.deploys_by_application'), pie_chart(charts_deploys_by_application_path) %>
+  </div>
+</div>
 
 <div class="row">
   <div class="col-lg-12">

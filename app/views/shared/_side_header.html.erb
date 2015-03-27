@@ -53,6 +53,13 @@
           <% end %>
         </ul>
       </li>
+      <li>
+        <%= link_to github_stats_path do %>
+          <i class="fa fa-github fa-fw"></i>
+          <%= t('common.github_stats') %>
+          <span class="fa arrow"></span>
+        <% end %>
+      </li>
       <% if current_user %>
       <li>
         <%= link_to '#' do %>
