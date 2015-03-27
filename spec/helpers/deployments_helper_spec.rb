@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DeploymentsHelper do
 
   it 'should return deployed app count as a sentence' do
-    deployed_app_count_sentence.should eq("0 deployed apps")
+    deployed_app_count_sentence.should eq("0 apps, deployed 0 times")
     Deployment.create(commit_sha: '0123456789', application: 'app_name', repository_name: 'repo_name', server: 'server')
     deployed_app_count_sentence.should eq("1 deployed app")
     Deployment.create(commit_sha: '0123456789232', application: 'app_name1', repository_name: 'repo_name', server: 'server')
