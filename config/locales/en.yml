@@ -15,6 +15,7 @@ en:
     team_count: 'Team count:'
     open: 'Open'
     github: 'GitHub'
+    github_stats: 'GitHub Stats'
     toggle_nav: 'Toggle navigation'
     all_deploys: 'All deployments'
     dashboard: 'Dashboard'
@@ -53,7 +54,7 @@ en:
     fail: 'Deployment could not be saved.'
     updated: 'Deployment was successfully updated.'
     destroyed: 'Deployment was successfully destroyed.'
-    app_count_sentence: "%{apps_count} deployed %{apps}"
+    app_count_sentence: "%{apps_count} %{apps}, deployed %{deploy_count} times"
     edit: 'Editing deployment'
     index: 'Listing deployments'
     application: 'Application'

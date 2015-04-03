@@ -2,7 +2,12 @@ module DeploymentsHelper
 
   def deployed_app_count_sentence
     apps_count = deployed_apps_count
-    t('deploy.app_count_sentence', apps_count: apps_count, apps: t('common.app').pluralize(apps_count))
+    t(
+      'deploy.app_count_sentence',
+      apps_count: apps_count,
+      apps: t('common.app').pluralize(apps_count),
+      deploy_count: Deployment.count
+    )
   end
 
   def deployed_apps_count

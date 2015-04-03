@@ -25,6 +25,7 @@ MetaSecretary::Application.routes.draw do
   get 'github/milestones'
   get 'github/commits_before'
   get 'github/commits'
+  get 'github/stats'
 
   root 'dashboard#home'
 end

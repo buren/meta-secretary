@@ -5,6 +5,9 @@ class GithubController < ApplicationController
 
   LATEST_DEPLOY_LIMIT = 3
 
+  def stats
+  end
+
   def issue_summary
     repos = github.repositories.map { |repo| github.issues_for(repo.full_name) }
     render json: { repositories: repos }

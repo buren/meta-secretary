@@ -120,7 +120,7 @@ class GithubApi
     end
 
     def last_year_commit_stat(repo_name)
-      stats = RetryableCall.perform(sleep: 1) { client.commit_activity_stats(full_repo_name(repo_name)) }
+      stats = RetryableCall.perform(sleep: 3, max_retries: 5) { client.commit_activity_stats(full_repo_name(repo_name)) }
       week = 0
       start_date = 1.year.ago.to_date
       repo_stats = Hash.new
