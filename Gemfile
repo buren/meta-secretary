@@ -28,22 +28,23 @@ end
 group :test do
   gem 'guard-rspec', require: false
   gem 'capybara'
-  gem 'spork'      , github: 'sporkrb/spork'
+  gem 'spork', github: 'sporkrb/spork'
   gem 'spork-rails', github: 'sporkrb/spork-rails'
   gem 'guard-spork'
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 2.14.2'
   gem 'simplecov'
   gem 'database_cleaner'
+  gem 'therubyracer', require: 'v8'
 end
 
 group :development do
-	gem 'better_errors'    , '0.8.0' # Better rails error pages
-	gem 'binding_of_caller', '0.7.0'
-	gem 'awesome_print'
+  gem 'better_errors',     '0.8.0' # Better rails error pages
+  gem 'binding_of_caller', '0.7.0'
+  gem 'awesome_print'
   gem 'quiet_assets'
   gem 'newrelic_rpm'
-	gem 'bullet' # detects common SQL mistakes
+  gem 'bullet' # detects common SQL mistakes
   gem 'rb-fsevent', '~> 0.9.1' # Enables guard to detect file changes osx
 end
 
