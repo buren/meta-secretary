@@ -7,6 +7,9 @@ if [[ -z $META_SECRETARY_URL || -z $META_ACCESS_TOKEN ]];then
   exit 1
 fi
 
+echo "Pushing master branch to heroku"
+git push heroku master
+
 echo 'Sending POST request to meta-secretary'
 curl -X POST -d \
 '{
@@ -20,5 +23,4 @@ curl -X POST -d \
   }
 }' $META_SECRETARY_URL/new_deployment  --header "Authorization: Token token=$META_ACCESS_TOKEN" --header "Content-Type:application/json" \
 && echo 'POST request sent' || echo "POST request to $META_SECRETARY_URL/new_deployment failed"
-echo "Pushing master branch to heroku"
-git push heroku master
+
