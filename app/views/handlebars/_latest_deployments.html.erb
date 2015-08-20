@@ -11,7 +11,7 @@
           <tr>
             <td>{{application}}</td>
             <td>{{server}}</td>
-            <td><%= link_to '{{commit_sha}}', "#{github_commits_path}?repo={{repository_name}}&sha={{commit_sha}}" %></td>
+            <td><%= link_to '{{label}}', "#{github_commits_path}?repo={{repository_name}}&sha={{commit_sha}}" %></td>
           </tr>
         {{/each}}
       </tbody>
