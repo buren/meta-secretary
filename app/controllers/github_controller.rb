@@ -10,6 +10,7 @@ class GithubController < ApplicationController
 
   def issue_summary
     repos = github.repositories.map { |repo| github.issues_for(repo.full_name) }
+    repos = repos.reject { |repo| repo[:open_count].zero? }
     render json: { repositories: repos }
   end
 
