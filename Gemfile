@@ -15,6 +15,8 @@ gem 'octokit', '~> 2.0' # GitHub API
 
 gem 'nprogress-rails' # Youtube style progress bar for turbolinks
 
+gem 'react_on_rails', '~> 1.1.1'
+
 # TODO: Don't use different databases in development and production
 group :production do
   gem 'rails_12factor' # For Heroku
