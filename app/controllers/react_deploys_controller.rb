@@ -1,7 +1,7 @@
-class HelloWorldController < ApplicationController
+class ReactDeploysController < ApplicationController
   def index
     deploys = deploys_by_app { |deploys_by_app| deploys_by_app.deploys_by_day.to_a }
-    @hello_world_props = {
+    @react_deploys_props = {
       name: 'Friend',
       deploys: deploys
     }
