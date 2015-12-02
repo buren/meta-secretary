@@ -46,7 +46,7 @@ module ReactHelper
     end
 
     def self.prod_base_path
-      'react_app'
+      'react_apps'
     end
 
     def self.dev_base_path(host, port)
