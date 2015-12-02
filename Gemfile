@@ -55,3 +55,5 @@ gem 'unicorn'
 
 gem 'therubyracer', platforms: :ruby, require: 'v8'
 gem 'bootstrap-sass'
+
+gem 'therubyracer', platforms: :ruby
