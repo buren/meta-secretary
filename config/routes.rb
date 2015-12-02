@@ -1,4 +1,5 @@
 MetaSecretary::Application.routes.draw do
+  get 'react_deploys', to: 'react_deploys#index'
   resources :users, except: [:destroy, :index, :show]
 
   resources :deployments
