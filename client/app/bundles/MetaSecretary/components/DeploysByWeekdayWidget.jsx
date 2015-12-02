@@ -18,10 +18,10 @@ export default class DeploysByWeekdayWidget extends React.Component {
 
   static propTypes = {
     // We prefix all property and variable names pointing to Immutable.js objects with '$$'.
-    // This allows us to immediately know we don't call $$helloWorldStore['someProperty'], but instead use
+    // This allows us to immediately know we don't call $metaStore['someProperty'], but instead use
     // the Immutable.js `get` API for Immutable.Map
     actions: PropTypes.object.isRequired,
-    $$helloWorldStore: PropTypes.instanceOf(Immutable.Map).isRequired,
+    $metaStore: PropTypes.instanceOf(Immutable.Map).isRequired,
   }
 
   // React will automatically provide us with the event `e`
@@ -31,9 +31,9 @@ export default class DeploysByWeekdayWidget extends React.Component {
   }
 
   render() {
-    const $$helloWorldStore = this.props.$$helloWorldStore;
-    const name = $$helloWorldStore.get('name');
-    const deploys = $$helloWorldStore.get('deploys');
+    const $metaStore = this.props.$metaStore;
+    const name = $metaStore.get('name');
+    const deploys = $metaStore.get('deploys');
     const listItems = deploys.map(deploy => {
       return <li key={deploy}>{deploy}</li>;
     });

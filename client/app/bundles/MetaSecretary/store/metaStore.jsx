@@ -15,11 +15,11 @@ import { initalStates } from '../reducers';
 export default props => {
   // This is how we get initial props Rails into redux.
   const { name, deploys } = props;
-  const { $$helloWorldState } = initalStates;
+  const { $metaState } = initalStates;
 
   // Redux expects to initialize the store using an Object, not an Immutable.Map
   const initialState = {
-    $$helloWorldStore: $$helloWorldState.merge({
+    $metaStore: $metaState.merge({
       name: name,
       deploys: deploys.map(deploy => {
         const data = deploy.data.map(dayPair => dayPair.join(': '));

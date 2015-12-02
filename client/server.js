@@ -19,7 +19,7 @@ var server = new WebpackDevServer(webpack(config), {
   },
 });
 
-// The following code is commented out because the HelloWorld example
+// The following code is commented out because the Deploys example
 // does not use any asynchronous functionality. It is meant to serve
 // as an example of how one might implement an API in express for their
 // webpack dev server
