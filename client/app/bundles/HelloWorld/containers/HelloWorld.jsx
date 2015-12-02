@@ -3,7 +3,7 @@ import DeploysByWeekdayWidget from '../components/DeploysByWeekdayWidget';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
-import * as helloWorldActionCreators from '../actions/helloWorldActionCreators';
+import * as deploysActionCreators from '../actions/deploysActionCreators';
 
 function select(state) {
   // Which part of the Redux global state does our component want to receive as props?
@@ -26,7 +26,7 @@ class HelloWorld extends React.Component {
 
   render() {
     const { dispatch, $$helloWorldStore } = this.props;
-    const actions = bindActionCreators(helloWorldActionCreators, dispatch);
+    const actions = bindActionCreators(deploysActionCreators, dispatch);
 
     // This uses the ES2015 spread operator to pass properties as it is more DRY
     // This is equivalent to:
