@@ -11,7 +11,7 @@ export default function deploysReducer($$state = $$initialState, action) {
   const { type, name } = action;
 
   switch (type) {
-    case actionTypes.HELLO_WORLD_NAME_UPDATE: {
+    case actionTypes.DEPLOYS_TITLE_NAME_UPDATE: {
       return $$state.set('name', name);
     }
 

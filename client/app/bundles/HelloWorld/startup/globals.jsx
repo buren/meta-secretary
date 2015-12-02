@@ -1,4 +1,4 @@
-import HelloWorldApp from './HelloWorldApp';
+import MetaSecretaryApp from './MetaSecretaryApp';
 
-// This is how react_on_rails can see the HelloWorldApp in the browser.
-window.HelloWorldApp = HelloWorldApp;
+// This is how react_on_rails can see the MetaSecretaryApp in the browser.
+window.MetaSecretaryApp = MetaSecretaryApp;
