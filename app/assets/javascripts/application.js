@@ -27,8 +27,8 @@
 //= require turbolinks
 //= require nprogress
 //= require nprogress-turbolinks
-//= require side_menu
 //= require handlebars
 //= require app_server_search
-//= require plugins/dataTables/dataTables.bootstrap.js
-//= require plugins/metisMenu/jquery.metisMenu.js
+//= require plugins/dataTables/dataTables.bootstrap
+//= require plugins/metisMenu/jquery.metisMenu
+//= require side_menu

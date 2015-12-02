@@ -8,16 +8,22 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- 
+
+ *= require plugins/dataTables/dataTables.bootstrap.css
+ *= require plugins/timeline/timeline.css
  *= require rails_bootstrap_forms
  *= require nprogress
  *= require nprogress-bootstrap
- 
+ *= require theme
+ *= require styles
+
  */
 // DO NOT REQUIRE TREE! It will interfere with load order!
 
 // Account for differences between Rails and Webpack Sass code.
 $rails: true;
+
+@import 'plugins/typeahead';
 
 // Included from bootstrap-sprockets gem and loaded in app/assets/javascripts/application.rb
 @import 'bootstrap-sprockets';
@@ -34,4 +40,3 @@ $rails: true;
 
 // This must come after all the boostrap styles are loaded so that these styles can override those.
 @import 'post-bootstrap';
-
