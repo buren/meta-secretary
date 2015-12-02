@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import HelloWorldWidget from '../components/HelloWorldWidget';
+import DeploysByWeekdayWidget from '../components/DeploysByWeekdayWidget';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
@@ -30,9 +30,9 @@ class HelloWorld extends React.Component {
 
     // This uses the ES2015 spread operator to pass properties as it is more DRY
     // This is equivalent to:
-    // <HelloWorldWidget $$helloWorldStore={$$helloWorldStore} actions={actions} />
+    // <DeploysByWeekdayWidget $$helloWorldStore={$$helloWorldStore} actions={actions} />
     return (
-      <HelloWorldWidget {...{$$helloWorldStore, actions}} />
+      <DeploysByWeekdayWidget {...{$$helloWorldStore, actions}} />
     );
   }
 }
