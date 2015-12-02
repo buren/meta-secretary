@@ -15,6 +15,8 @@ gem 'octokit', '~> 2.0' # GitHub API
 
 gem 'nprogress-rails' # Youtube style progress bar for turbolinks
 
+gem 'react_on_rails', '~> 1.1.1'
+
 # TODO: Don't use different databases in development and production
 group :production do
   gem 'rails_12factor' # For Heroku
@@ -35,7 +37,6 @@ group :test do
   gem 'rspec-rails', '~> 2.14.2'
   gem 'simplecov'
   gem 'database_cleaner'
-  gem 'therubyracer', require: 'v8'
 end
 
 group :development do
@@ -51,3 +52,8 @@ end
 gem 'bcrypt', '~> 3.1.7', require: true
 
 gem 'unicorn'
+
+gem 'therubyracer', platforms: :ruby, require: 'v8'
+gem 'bootstrap-sass'
+
+gem 'therubyracer', platforms: :ruby

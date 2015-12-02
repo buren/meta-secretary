@@ -5,3 +5,19 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+apps = %w(meta-secretary heimdall omorfia jenkins synargus)
+created_ats = (1..7).to_a
+
+150.times do
+  app = apps.sample
+  dep = Deployment.new(
+    commit_sha: SecureRandom.uuid,
+    tag: 'v0.1.1',
+    server: 'production',
+    application: app,
+    created_at: created_ats.sample.days.ago,
+    repository_name: app
+  )
+  dep.save!
+end
