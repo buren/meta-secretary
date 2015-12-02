@@ -37,7 +37,6 @@ group :test do
   gem 'rspec-rails', '~> 2.14.2'
   gem 'simplecov'
   gem 'database_cleaner'
-  gem 'therubyracer', require: 'v8'
 end
 
 group :development do
@@ -53,3 +52,6 @@ end
 gem 'bcrypt', '~> 3.1.7', require: true
 
 gem 'unicorn'
+
+gem 'therubyracer', platforms: :ruby, require: 'v8'
+gem 'bootstrap-sass'
